@@ -1,0 +1,81 @@
+<p>
+  <strong id="st">Title:</strong>
+  <%= @project.title %>
+ <%=  @project.users.pluck(:username) %>
+</p>
+ 
+<p>
+  <strong>Text:</strong>
+  <%= @project.description %>
+</p>
+<%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
+  <%= link_to 'Edit', edit_project_path(@project) %> |
+<% end %>
+<%= link_to 'Back', projects_path %>
+<br/>
+<%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
+<strong>Assign Developers to the Project</strong>
+
+<%= form_with url: prouse_adddev_path(@project.id), local: true do |f| %>
+<div class="field">
+    <%= f.label :developer_for_this_project %><br />
+    <%= f.select(:developer_for_this_project, @developers.pluck(:username)) %>
+
+</div>
+<%= f.hidden_field :project, :value => @project.id %>
+
+<div class="actions">
+    <%= f.submit "Add Developer to This Project" %>
+</div>
+
+<% end %>
+
+<%= form_with url: prouse_removedev_path(@project.id), remote:true, local: true do |f| %>
+<div class="field">
+    <%= f.label :developer_for_this_project %><br />
+    <%= f.select(:developer_for_this_project, @developers.pluck(:username)) %>
+
+</div>
+<%= f.hidden_field :project, :value => @project.id %>
+
+<div class="actions">
+    <%= f.submit "Remove Developer to This Project" %>
+</div>
+
+<% end %>
+
+<br/>
+<strong>Assign Developers to the Project</strong>
+
+<%= form_with url: prouse_addqa_path(@project), local: true do |f| %>
+<div class="field">
+    <%= f.label :qas_for_this_project %><br />
+    <%= f.select(:qas_for_this_project, @qas.pluck(:username)) %>
+
+</div>
+<%= f.hidden_field :project, :value => @project.id %>
+
+<div class="actions">
+    <%= f.submit "Add QA to This Project" %>
+</div>
+
+<% end %>
+
+
+
+<%= form_with url: prouse_removeqa_path(@project.id), remote:true, local: true do |f| %>
+<div class="field">
+    <%= f.label :qas_for_this_project %><br />
+    <%= f.select(:qas_for_this_project, @qas.pluck(:username)) %>
+
+</div>
+<%= f.hidden_field :project, :value => @project.id %>
+
+<div class="actions">
+    <%= f.submit "Remove QA to This Project" %>
+</div>
+
+<% end %>
+
+
+<% end %>

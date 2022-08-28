@@ -1,0 +1,10 @@
+<div id="user_nav">
+  <% if user_signed_in? %>
+    <%= current_user.username %> you are signed in as <%= current_user.roles.pluck(:name)%> Not you?
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+    <h1>Hello, Rails!</h1>
+    <%= link_to 'Projects', controller: 'projects' %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+  <% end %>
+</div>
