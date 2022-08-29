@@ -1,0 +1,56 @@
+<%= form_with scope: :bug, url: bugs_path, local: true do |form| %>
+
+  <% if @bug.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@bug.errors.count, "error") %> prohibited
+        this bug from being saved:
+      </h2>
+      <ul>
+        <% @bug.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+
+  <p>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+  </p>
+
+
+  <p>
+    <%= form.label :deadline %><br>
+    <%= form.date_select :deadline %>
+  </p>
+
+
+  <p>
+    <%= form.label :screenshot  %><br>
+    <%= form.file_field :screenshot %>
+  </p>
+
+
+  <p>
+    <%= form.label :bugtype  %><br>
+    <%= form.select :bugtype, Bug.bugtypes.keys %>
+  </p>
+
+  <p>
+    <%= form.label :status  %><br>
+    <%= form.select :status, Bug.statuses.keys %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+
+<% end %>
+
+<%= link_to 'Back', bugs_path %>

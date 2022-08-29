@@ -7,7 +7,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-    @user.has_any_role? :Manager, :QA
+    @user.has_any_role? :Manager, :QA, :Developer
   end
 
   def create?
