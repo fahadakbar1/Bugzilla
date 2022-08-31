@@ -1,6 +1,6 @@
 class Bug < ApplicationRecord
 
-  validates :title, presence: true
+  validates :title,:bugtype, presence: true
   validate :attached_screenshot_type
 
   has_one_attached :screenshot

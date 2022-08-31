@@ -1,4 +1,4 @@
-
+<!--
 <table>
   <tr>
     <th>Title</th>
@@ -18,9 +18,9 @@
       <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
       <td><%= bug.bugtype %></td>
       <td><%= bug.status %></td>
-      <td><%= link_to 'Show', bug_path(bug) %></td>
-      <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
-      <td><%= link_to 'Destroy', bug_path(bug),
+      <td><%= link_to 'Show', project_bug_path(bug) %></td>
+      <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
+      <td><%= link_to 'Destroy', project_bug_path(bug),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
     </tr>
@@ -28,4 +28,5 @@
 
 </table>
   <br>
- <%= link_to 'Create a New Bug', new_bug_path %>
+ <%= link_to 'Create a New Bug', new_project_bug_path %>
+-->

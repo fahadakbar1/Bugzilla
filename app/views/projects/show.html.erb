@@ -70,5 +70,109 @@
 
 <% end %>
 
+<% end %>
 
+<%if (current_user.user_type=='Developer') %>
+
+<h2>Your Assigned Bug & Features</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Deadline</th>
+    <th>Screenshot</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>UserId</th>
+    <th colspan="2"></th>
+  </tr>
+<% @project.bugs.each do |bug| %>
+<%if (bug.user_id==current_user.id) %>
+  <tr>
+      <td><%= bug.title %></td>
+      <td><%= bug.description %></td>
+      <td><%= bug.deadline %></td>
+      <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
+      <td><%= bug.bugtype %></td>
+      <td><%= bug.status %></td>
+      <td><%= bug.user_id %></td>
+      <%if (bug.project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='QA' ) %>
+      <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
+      <td><%= link_to 'Destroy', [bug.project, bug],
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+      <%if (current_user.user_type=='Developer') %>
+<td>
+<%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
+
+<%= f.hidden_field :pid, :value => @project.id %>
+<%= f.hidden_field :bid, :value => bug.id %>
+
+<%= f.submit "Mark it Complete" %>
+
+<% end %>
+<td>
+
+      <% end %>
+    </tr>
+<% end %>
+
+<% end %>
+</table>
+<% end %>
+
+
+
+
+<h2>Bugs & Features</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Deadline</th>
+    <th>Screenshot</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>UserId</th>
+    <th colspan="2"></th>
+  </tr>
+<% @project.bugs.each do |bug| %>
+<%if (bug.user_id!=current_user.id) %>
+  <tr>
+      <td><%= bug.title %></td>
+      <td><%= bug.description %></td>
+      <td><%= bug.deadline %></td>
+      <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
+      <td><%= bug.bugtype %></td>
+      <td><%= bug.status %></td>
+      <td><%= bug.user_id %></td>
+      <%if (bug.project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='QA' ) %>
+      <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
+      <td><%= link_to 'Destroy', [bug.project, bug],
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+      <%if (current_user.user_type=='Developer') %>
+<td>
+<%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
+
+<%= f.hidden_field :pid, :value => @project.id %>
+<%= f.hidden_field :bid, :value => bug.id %>
+
+<%= f.submit "Assign Bug To Yourself" %>
+
+<% end %>
+<td>
+
+      <% end %>
+    </tr>
+<% end %>
+
+<% end %>
+</table>
+<%if (current_user.user_type=='QA') %>
+<%= link_to 'Add New Bug', new_project_bug_path(@project) %>
 <% end %>

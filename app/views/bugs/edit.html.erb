@@ -1,6 +1,6 @@
 <h1>Edit Bug</h1>
 
-<%= form_with(model: @bug, local: true) do |form| %>
+<%= form_with(model:[@project, @bug], local: true) do |form| %>
 
   <% if @bug.errors.any? %>
     <div id="error_explanation">
@@ -43,4 +43,4 @@
 
 <% end %>
 
-<%= link_to 'Back', bugs_path %>
+<%= link_to 'Back', project_path %>

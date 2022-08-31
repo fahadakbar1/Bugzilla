@@ -1,4 +1,6 @@
-<%= form_with scope: :bug, url: bugs_path, local: true do |form| %>
+<h2>Add a Bug:</h2>
+
+<%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
 
   <% if @bug.errors.any? %>
     <div id="error_explanation">
@@ -50,7 +52,7 @@
   <p>
     <%= form.submit %>
   </p>
-
 <% end %>
 
-<%= link_to 'Back', bugs_path %>
+<%= link_to 'Back', project_path(@project) %>
+

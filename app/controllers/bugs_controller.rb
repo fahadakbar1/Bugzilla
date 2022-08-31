@@ -1,45 +1,65 @@
 class BugsController < ApplicationController
-  def index
-    @bugs = Bug.all
+  #def index
+  #  @bugs = Bug.all
+ # end
+
+ # def show
+ #   @bug = Bug.find(params[:id])
+ # end
+before_action :authenticate_user!
+
+  def assign
+    @bug = Bug.find(params[:bid])
+    @bug.user_id = current_user.id
+    @bug.status = 1
+    @bug.save
+    @project=Project.find(params[:pid])
+    redirect_to @project
   end
 
-  def show
-    @bug = Bug.find(params[:id])
+
+  def markcomplete
+    @bug = Bug.find(params[:bid])
+    @bug.user_id = current_user.id
+    @bug.status = 2
+    @bug.save
+    @project=Project.find(params[:pid])
+    redirect_to @project
   end
+
 
   def new
     @bug = Bug.new
+    @project=Project.find(params[:project_id])
   end
 
-    def edit
-    @bug = Bug.find(params[:id])
+  def edit
+     @bug = Bug.find(params[:project_id])
+     @project = Project.find(params[:id])
   end
 
   def create
-    @bug = Bug.new(bug_params)
-
-  if @bug.save
-    redirect_to @bug
-  else
-    render 'new'
-  end
+    @user = User.find(current_user.id)
+    @project=Project.find(params[:project_id])
+    @bug = @project.bugs.create(bug_params)
+    authorize @bug
+    redirect_to project_path(@project)
   end
 
 def update
-@bug = Bug.find(params[:id])
 
-  if @bug.update(bug_params)
-    redirect_to @bug
-  else
-    render 'edit'
-  end
+  @project=Project.find(params[:project_id])
+  @bug = Bug.find(params[:id])
+  @bug.update(bug_params)
+  redirect_to @project
+
 end
 
 def destroy
-  @bug = Bug.find(params[:id])
-  @bug.destroy
-
-  redirect_to bugs_path
+  @project = Project.find(params[:project_id])
+    @bug = @project.bugs.find(params[:id])
+    @bug.destroy
+    redirect_to project_path(@project)
 end
 
   private
