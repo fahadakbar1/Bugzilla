@@ -1,4 +1,16 @@
-<h2>Add a Bug:</h2>
+<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0; padding: 20px 50px; box-shadow: 0 8px 8px -2px rgba(0,0,0,.2);">
+  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+  <%= link_to "Sign out", destroy_user_session_path ,
+  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
+   :class => "btn btn-lg btn-danger"}%>
+</nav>
+
+
+<body style="background-color: #00203FFF;">
+<section class="container mx-auto" style=" padding:50px 200px; ">
+<div class="row" style=" padding: 50px 100px; border-radius: 5px;background-color: white;">
+   <div class="col">
+<h3 style="letter-spacing: 1px;" class="text-center">Add New Bug</h3>
 
 <%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
 
@@ -16,43 +28,34 @@
     </div>
   <% end %>
 
-  <p>
+<div class="form-group">
     <%= form.label :title %><br>
-    <%= form.text_field :title %>
-  </p>
+    <%= form.text_field :title , class: 'form-control input-lg'%>
+</div>
 
-  <p>
+<div class="form-group">
     <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </p>
+    <%= form.text_area :description , class: 'form-control input-lg'%>
+</div>
 
-
-  <p>
+<div class="form-group">
     <%= form.label :deadline %><br>
     <%= form.date_select :deadline %>
-  </p>
+</div>
 
 
-  <p>
-    <%= form.label :screenshot  %><br>
-    <%= form.file_field :screenshot %>
-  </p>
-
-
-  <p>
+<%= form.label :screenshot  %><br>
+<%= form.file_field :screenshot%>
+<br>
+<div class="form-group">
     <%= form.label :bugtype  %><br>
-    <%= form.select :bugtype, Bug.bugtypes.keys %>
-  </p>
+    <%= form.select :bugtype, Bug.bugtypes.keys , {}, { class: "form-control input-lg" }%>
+</div>
 
-  <p>
-    <%= form.label :status  %><br>
-    <%= form.select :status, Bug.statuses.keys %>
-  </p>
-
-  <p>
-    <%= form.submit %>
-  </p>
+<div class="pt-1 mb-4">
+    <%= form.submit "Create Bug" , class: 'btn btn-info btn-lg btn-block'%>
+</div>
 <% end %>
-
+<br/>
 <%= link_to 'Back', project_path(@project) %>
 

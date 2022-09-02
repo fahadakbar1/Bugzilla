@@ -67,6 +67,8 @@ gem 'rolify', '~> 5.2'
 
 gem 'pundit', '~> 2.2'
 
+gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
+
 group :development, :test do
   gem 'rubocop'
   gem 'rubocop-performance'

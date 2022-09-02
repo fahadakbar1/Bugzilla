@@ -1,53 +1,79 @@
+<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0; padding: 20px 50px;box-shadow: 0 8px 8px -2px rgba(0,0,0,.2);">
+  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+  <%= link_to "Sign out", destroy_user_session_path ,
+  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
+   :class => "btn btn-lg btn-danger"}%>
+</nav>
+
+
+<br />
+
+<div style="width: 95%; margin:auto;">
+
 <h1>Your Projects</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
+<br />
+<table class="table table-bordered table-hover" >
+  <thead class="thead-dark" style="background-color:#dedede; ">
+   <tr style="height: 50px;">
+    <th style="vertical-align: middle;">Title</th>
+    <th style="vertical-align: middle;">Description</th>
+    <th style="vertical-align: middle;">Show</th>
+    <%if ( current_user.user_type=='Manager') %>
+    <th style="vertical-align: middle;">Edit</th>
+    <th style="vertical-align: middle;">Destroy</th>
+    <% end %>
   </tr>
-
-
-  <% current_user.projects.each do |project| %>
-    <tr>
-      <td><%= project.title %></td>
-      <td><%= project.description%></td>
-      <td><%= link_to 'Show', project_path(project) %></td>
+  </thead>
+  <tbody>
+     <% current_user.projects.each do |project| %>
+    <tr style="height: 50px;">
+      <td style="vertical-align: middle;"><%= project.title %></td>
+      <td style="vertical-align: middle;"><%= project.description%></td>
+      <td style="vertical-align: middle;"><%= link_to 'Show', project_path(project) %></td>
       <%if ( current_user.user_type=='Manager') %>
-      <td><%= link_to 'Edit', edit_project_path(project) %></td>
-      <td><%= link_to 'Destroy', project_path(project),
+      <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_path(project) %></td>
+      <td style="vertical-align: middle;"><%= link_to 'Destroy', project_path(project),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
       <% end %>
     </tr>
   <% end %>
+  </tbody>
 </table>
 
 <%if ( current_user.user_type=='Manager') %>
-<br/>
-<%= link_to 'Create New Project', new_project_path %>
+<%= link_to 'Create New Project', new_project_path , {:style=>'width:15%;', :class => "btn btn-success"}%>
 <% end %>
+</div>
+
+<br />
 
 <%if ( current_user.user_type!='Developer') %>
+
+<div style="width: 95%; margin:auto;">
 <h1>Other Projects</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
+<br />
+<table class="table table-bordered table-hover" >
+  <thead class="thead-dark" style="background-color:#dedede;">
+  <tr style="height: 50px;">
+    <th style="vertical-align: middle;">Title</th>
+    <th style="vertical-align: middle;">Description</th>
+    <th style="vertical-align: middle;">Show</th>
   </tr>
-
+</thead>
+  <tbody>
   <% @projects.each do |project| %>
   <% if project.users.pluck(:id).include?(current_user.id)%>
   <p></p>
 
   <% else %>
-  <tr>
-      <td><%= project.title %></td>
-      <td><%= project.description%></td>
-      <td><%= link_to 'Show', project_path(project) %></td>
+  <tr style="height: 50px;">
+      <td style="vertical-align: middle;"><%= project.title %></td>
+      <td style="vertical-align: middle;"><%= project.description%></td>
+      <td style="vertical-align: middle;"><%= link_to 'Show', project_path(project) %></td>
      <%if (current_user.id == project.users.pluck(:id))%>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project_path(project),
+        <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_path(project) %></td>
+        <td style="vertical-align: middle;"><%= link_to 'Destroy', project_path(project),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
       <% end %>
@@ -57,4 +83,7 @@
   <% end %>
 
   <% end %>
+</tbody>
 </table>
+
+</div>

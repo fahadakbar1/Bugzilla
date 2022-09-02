@@ -1,178 +1,197 @@
-<p>
-  <strong id="st">Title:</strong>
-  <%= @project.title %>
- <%=  @project.users.pluck(:username) %>
-</p>
- 
-<p>
-  <strong>Text:</strong>
-  <%= @project.description %>
-</p>
-<%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
-  <%= link_to 'Edit', edit_project_path(@project) %> |
-<% end %>
-<%= link_to 'Back', projects_path %>
+<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0; padding: 20px 50px;box-shadow: 0 8px 8px -2px rgba(0,0,0,.2);">
+  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+  <%= link_to "Sign out", destroy_user_session_path ,
+  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
+   :class => "btn btn-lg btn-danger"}%>
+</nav>
+
+
+<div class="jumbotron" style="width: 97%; background-color: #ebf2ff; margin:auto; padding: 20px 50px 50px; border-radius: 5px; margin-top: 20px;">
+  <h1 style="color: #00203FFF"> <%= @project.title %> </h1>
+  <p class="lead"> <%= @project.description %> </p>
+  <hr class="my-4">
+  <p>Manager : <%= @project.users.pluck(:username).first %></p>
+
+  <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
+  <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
+  <% end %>
+  <%= link_to 'Back', projects_path , { :class => "btn btn-primary btn-sm"}%>
+
+  <br/>
+  <br/>
+  <div style="float:right;">
+  <span class="label label-default">No. of Developers : <%= @project.users.select{ |element| element.user_type=="Developer"}.count() %></span>
+  <span class="label label-default">No of QA's : <%= @project.users.select{ |element| element.user_type=="QA"}.count() %></span>
+</div>
+
+</div>
 
 
 <br/>
 <br/>
 
 <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
-<strong>Assign Developers to the Project</strong>
 
-<br/><br/>
 
-<%= form_with url: prouse_adddev_path(@project.id), local: true do |f| %>
-
-<%= f.select(:developer_for_this_project, @developers.pluck(:username)) %>
-
-<%= f.hidden_field :project, :value => @project.id %>
-
-<%= f.submit "Add Developer to This Project" %>
-
-<% end %>
+<div style=" width: 97%; margin:auto;">
+<h1 style="color: #00203FFF;">Assign Developers and QA's to this Project</h1>
 
 <br/>
-
-<%= form_with url: prouse_removedev_path(@project.id), remote:true, local: true do |f| %>
-
-<%= f.select(:developer_for_this_project, @developers.pluck(:username)) %>
-
+  <div style=" width: 49%; margin:auto; display: inline-block;">
+<%= form_with url: prouse_adddev_path(@project.id), local: true do |f|%>
+<%= f.select(:developer_for_this_project, @developers.pluck(:username) , {}, { class: "form-control input-md", style:"margin-bottom:10px;" }) %>
 <%= f.hidden_field :project, :value => @project.id %>
 
-<%= f.submit "Remove Developer to This Project" %>
-
+<%= f.submit "Add Developer To This Project" , class: 'btn btn-primary btn-md btn-block'%>
 <% end %>
+</div>
 
-<br/>
-<strong>Assign QAs to the Project</strong>
-<br/><br/>
+  <div style=" width: 49%; margin-left: 20px;display: inline-block;">
 
 <%= form_with url: prouse_addqa_path(@project), local: true do |f| %>
-
-<%= f.select(:qas_for_this_project, @qas.pluck(:username)) %>
-
+<%= f.select(:qas_for_this_project, @qas.pluck(:username) , {}, { class: "form-control input-md", style:"margin-bottom:10px;" }) %>
 <%= f.hidden_field :project, :value => @project.id %>
 
-<%= f.submit "Add QA to This Project" %>
-
+<%= f.submit "Add QA To This Project" , class: 'btn btn-primary btn-md btn-block'%>
 <% end %>
+</div>
+
+</div>
 
 <br/>
+<br/>
+
+<div style=" width: 97%; margin:auto;">
+<h1 style="color: #00203FFF;">Remove Developers and QAs from this Project</h1>
+
+<br/>
+  <div style=" width: 49%; margin:auto; display: inline-block;">
+<%= form_with url: prouse_removedev_path(@project.id), remote:true, local: true do |f| %>
+<%= f.select(:developer_for_this_project, @developers.pluck(:username), {}, { class: "form-control input-md", style:"margin-bottom:10px;" }) %>
+<%= f.hidden_field :project, :value => @project.id %>
+<%= f.submit "Remove Developer From This Project" , class: 'btn btn-danger btn-md btn-block'%>
+<% end %>
+</div>
+
+<div style=" width: 49%; margin-left: 20px;display: inline-block;">
 
 <%= form_with url: prouse_removeqa_path(@project.id), remote:true, local: true do |f| %>
-
-<%= f.select(:qas_for_this_project, @qas.pluck(:username)) %>
-
+<%= f.select(:qas_for_this_project, @qas.pluck(:username), {}, { class: "form-control input-md", style:"margin-bottom:10px;" }) %>
 <%= f.hidden_field :project, :value => @project.id %>
+<%= f.submit "Remove QA From This Project" , class: 'btn btn-danger btn-md btn-block'%>
+<% end %>
+</div>
 
-<%= f.submit "Remove QA to This Project" %>
+</div>
 
 <% end %>
 
-<% end %>
 
 <%if (current_user.user_type=='Developer') %>
 
-<h2>Your Assigned Bug & Features</h2>
+<div style="width: 97%; margin:auto;">
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Deadline</th>
-    <th>Screenshot</th>
-    <th>Type</th>
-    <th>Status</th>
-    <th>UserId</th>
-    <th colspan="2"></th>
+<h1 style="color: #00203FFF;">Your Assigned Bug & Features</h1>
+<br />
+<table class="table table-bordered table-hover" >
+  <thead class="thead-dark" style="background-color:#dedede; ">
+   <tr style="height: 50px;">
+    <th style="vertical-align: middle;">Title</th>
+    <th style="vertical-align: middle;">Description</th>
+    <th style="vertical-align: middle;">Deadline</th>
+    <th style="vertical-align: middle;">Screenshot</th>
+    <th style="vertical-align: middle;">Type</th>
+    <th style="vertical-align: middle;">Status</th>
+    <th style="vertical-align: middle;">Mark it Complete</th>
   </tr>
-<% @project.bugs.each do |bug| %>
-<%if (bug.user_id==current_user.id) %>
-  <tr>
-      <td><%= bug.title %></td>
-      <td><%= bug.description %></td>
-      <td><%= bug.deadline %></td>
-      <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
-      <td><%= bug.bugtype %></td>
-      <td><%= bug.status %></td>
-      <td><%= bug.user_id %></td>
-      <%if (bug.project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='QA' ) %>
-      <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
-      <td><%= link_to 'Destroy', [bug.project, bug],
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
+  </thead>
+  <tbody>
+     <% @project.bugs.each do |bug| %>
+     <%if (bug.user_id==current_user.id) %>
+    <tr style="height: 50px;">
+      <td style="vertical-align: middle;"><%= bug.title %></td>
+      <td style="vertical-align: middle;"><%= bug.description %></td>
+      <td style="vertical-align: middle;"><%= bug.deadline %></td>
+      <td style="vertical-align: middle;"><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
+      <td style="vertical-align: middle;"><%= bug.bugtype %></td>
+      <td style="vertical-align: middle;"><%= bug.status %></td>
       <%if (current_user.user_type=='Developer') %>
-<td>
-<%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
-
-<%= f.hidden_field :pid, :value => @project.id %>
-<%= f.hidden_field :bid, :value => bug.id %>
-
-<%= f.submit "Mark it Complete" %>
-
-<% end %>
-<td>
-
+      <td>
+      <%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
+      <%= f.hidden_field :pid, :value => @project.id %>
+      <%= f.hidden_field :bid, :value => bug.id %>
+      <%= f.submit "Mark it Complete" , { :class => "btn btn-success btn-sm"}%>
+      <% end %>
+      </  td>
       <% end %>
     </tr>
 <% end %>
-
-<% end %>
+  <% end %>
+  </tbody>
 </table>
+</div>
 <% end %>
 
-
-
-
-<h2>Bugs & Features</h2>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Deadline</th>
-    <th>Screenshot</th>
-    <th>Type</th>
-    <th>Status</th>
-    <th>UserId</th>
-    <th colspan="2"></th>
+<div style="width: 97%; margin:auto;">
+      <%if (current_user.user_type!='QA') %>
+<br />
+<br />
+<% end %>
+<h1 style="color: #00203FFF;">Bugs & Features</h1>
+<br />
+<table class="table table-bordered table-hover" >
+  <thead class="thead-dark" style="background-color:#dedede; ">
+   <tr style="height: 50px;">
+    <th style="vertical-align: middle;">Title</th>
+    <th style="vertical-align: middle;">Description</th>
+    <th style="vertical-align: middle;">Deadline</th>
+    <th style="vertical-align: middle;">Screenshot</th>
+    <th style="vertical-align: middle;">Type</th>
+    <th style="vertical-align: middle;">Status</th>
+    <%if (current_user.user_type=='QA' ) %>
+    <th style="vertical-align: middle;">Edit</th>
+    <th style="vertical-align: middle;">Destroy</th>
+    <% end%>
+    <%if (current_user.user_type=='Developer' ) %>
+    <th style="vertical-align: middle;">Assign Bug to Yourself</th>
+    <% end%>
   </tr>
-<% @project.bugs.each do |bug| %>
-<%if (bug.user_id!=current_user.id) %>
-  <tr>
-      <td><%= bug.title %></td>
-      <td><%= bug.description %></td>
-      <td><%= bug.deadline %></td>
-      <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
-      <td><%= bug.bugtype %></td>
-      <td><%= bug.status %></td>
-      <td><%= bug.user_id %></td>
+  </thead>
+  <tbody>
+     <% @project.bugs.each do |bug| %>
+     <%if (bug.user_id!=current_user.id) %>
+    <tr style="height: 50px;">
+      <td style="vertical-align: middle;"><%= bug.title %></td>
+      <td style="vertical-align: middle;"><%= bug.description %></td>
+      <td style="vertical-align: middle;"><%= bug.deadline %></td>
+      <td style="vertical-align: middle;"><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
+      <td style="vertical-align: middle;"><%= bug.bugtype %></td>
+      <td style="vertical-align: middle;"><%= bug.status %></td>
       <%if (bug.project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='QA' ) %>
-      <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
-      <td><%= link_to 'Destroy', [bug.project, bug],
+      <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
+      <td style="vertical-align: middle;"><%= link_to 'Destroy', [bug.project, bug],
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
+              <% end %>
       <%if (current_user.user_type=='Developer') %>
-<td>
-<%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
+      <td>
+      <%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
 
-<%= f.hidden_field :pid, :value => @project.id %>
-<%= f.hidden_field :bid, :value => bug.id %>
+      <%= f.hidden_field :pid, :value => @project.id %>
+      <%= f.hidden_field :bid, :value => bug.id %>
+      <%= f.submit "Assign Bug To Yourself" , { :class => "btn btn-success btn-sm"}%>
 
-<%= f.submit "Assign Bug To Yourself" %>
-
-<% end %>
-<td>
+      <% end %>
+      </td>
 
       <% end %>
     </tr>
 <% end %>
+  <% end %>
+  </tbody>
 
-<% end %>
 </table>
 <%if (current_user.user_type=='QA') %>
-<%= link_to 'Add New Bug', new_project_bug_path(@project) %>
+<%= link_to 'Add New Bug', new_project_bug_path(@project) , {:style=>'width:15%;', :class => "btn btn-success"}%>
 <% end %>
+</div>
