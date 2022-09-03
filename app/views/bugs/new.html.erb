@@ -5,7 +5,6 @@
    :class => "btn btn-lg btn-danger"}%>
 </nav>
 
-
 <body style="background-color: #00203FFF;">
 <section class="container mx-auto" style=" padding:50px 200px; ">
 <div class="row" style=" padding: 50px 100px; border-radius: 5px;background-color: white;">
@@ -48,7 +47,7 @@
 <%= form.file_field :screenshot%>
 <br>
 <div class="form-group">
-    <%= form.label :bugtype  %><br>
+    <%= form.label :Type  %><br>
     <%= form.select :bugtype, Bug.bugtypes.keys , {}, { class: "form-control input-lg" }%>
 </div>
 

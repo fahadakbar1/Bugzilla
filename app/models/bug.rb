@@ -15,8 +15,10 @@ private
 
 def attached_screenshot_type
 
+if screenshot.attached?
 unless screenshot.content_type.in?(%w[image/png image/gif])
 errors.add(:screenshot, 'must be PNG or GIF file')
+end
 end
 
 end

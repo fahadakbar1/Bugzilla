@@ -150,7 +150,7 @@
     <th style="vertical-align: middle;">Status</th>
     <%if (current_user.user_type=='QA' ) %>
     <th style="vertical-align: middle;">Edit</th>
-    <th style="vertical-align: middle;">Destroy</th>
+    <th style="vertical-align: middle;">Delete</th>
     <% end%>
     <%if (current_user.user_type=='Developer' ) %>
     <th style="vertical-align: middle;">Assign Bug to Yourself</th>
@@ -169,7 +169,7 @@
       <td style="vertical-align: middle;"><%= bug.status %></td>
       <%if (bug.project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='QA' ) %>
       <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
-      <td style="vertical-align: middle;"><%= link_to 'Destroy', [bug.project, bug],
+      <td style="vertical-align: middle;"><%= link_to 'Delete', [bug.project, bug],
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
               <% end %>

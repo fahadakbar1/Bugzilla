@@ -7,26 +7,7 @@ class BugsController < ApplicationController
  #   @bug = Bug.find(params[:id])
  # end
 before_action :authenticate_user!
-
-  def assign
-    @bug = Bug.find(params[:bid])
-    @bug.user_id = current_user.id
-    @bug.status = 1
-    @bug.save
-    @project=Project.find(params[:pid])
-    redirect_to @project
-  end
-
-
-  def markcomplete
-    @bug = Bug.find(params[:bid])
-    @bug.user_id = current_user.id
-    @bug.status = 2
-    @bug.save
-    @project=Project.find(params[:pid])
-    redirect_to @project
-  end
-
+before_action :resolved_or_completed, only: [ :markcomplete ]
 
   def new
     @bug = Bug.new
@@ -39,11 +20,16 @@ before_action :authenticate_user!
   end
 
   def create
+
     @user = User.find(current_user.id)
     @project=Project.find(params[:project_id])
-    @bug = @project.bugs.create(bug_params)
+    @bug = @project.bugs.new(bug_params)
     authorize @bug
-    redirect_to project_path(@project)
+    if @bug.save
+        redirect_to project_path(@project)
+    else
+        render :new
+    end
   end
 
 def update
@@ -62,8 +48,34 @@ def destroy
     redirect_to project_path(@project)
 end
 
+  def assign
+    @bug = Bug.find(params[:bid])
+    @bug.user_id = current_user.id
+    @bug.status = 1
+    @bug.save
+    @project=Project.find(params[:pid])
+    redirect_to @project
+  end
+
+  def markcomplete
+    @project=Project.find(params[:pid])
+    redirect_to @project
+  end
+
   private
   def bug_params
     params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bugtype, :status)
   end
+
+  def resolved_or_completed
+      @bug = Bug.find(params[:bid])
+      @bug.user_id = current_user.id
+      if @bug.bugtype=='bug'
+        @bug.status = 2
+      else
+        @bug.status = 3
+      end
+      @bug.save
+  end
+
 end
