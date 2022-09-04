@@ -1,13 +1,14 @@
-class ProjectsController < ApplicationController
+# frozen_string_literal: true
 
+class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-      @projects = Project.all
-      authorize @projects
+    @projects = Project.all
+    authorize @projects
   end
 
-def show
+  def show
     @project = Project.find(params[:id])
     @developers = User.with_role :Developer
     @qas = User.with_role :QA
@@ -22,37 +23,37 @@ def show
   end
 
   def create
-  @user = User.find(current_user.id)
-  @project = @user.projects.new(project_params)
-  authorize @project
-  if @project.save
-    redirect_to @project
-  else
-    render 'new'
+    @user = User.find(current_user.id)
+    @project = @user.projects.new(project_params)
+    authorize @project
+    if @project.save
+      redirect_to @project
+    else
+      render 'new'
+    end
   end
 
+  def update
+    @project = Project.find(params[:id])
+
+    if @project.update(project_params)
+      redirect_to @project
+    else
+      render 'edit'
+    end
   end
 
-def update
-  @project = Project.find(params[:id])
+  def destroy
+    @user = User.find(current_user.id)
+    @project = @user.projects.find(params[:id])
+    @project.destroy
 
-  if @project.update(project_params)
-    redirect_to @project
-  else
-    render 'edit'
+    redirect_to projects_path
   end
-end
-
-def destroy
-  @user = User.find(current_user.id)
-  @project = @user.projects.find(params[:id])
-  @project.destroy
-
-  redirect_to projects_path
-end
 
   private
-    def project_params
-      params.require(:project).permit(:title, :description)
-    end
+
+  def project_params
+    params.require(:project).permit(:title, :description)
+  end
 end

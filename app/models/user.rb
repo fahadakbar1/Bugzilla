@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
@@ -7,14 +9,13 @@ class User < ApplicationRecord
 
   after_create :set_user_role
 
-  has_many :prouse
+  has_many :prouse, dependent: :destroy
   has_many :projects, through: :prouse, dependent: :destroy
 
   private
 
-   def set_user_role
-    self.roles=[]
-    self.add_role("#{user_type}")
-   end
-
+  def set_user_role
+    self.roles = []
+    add_role(user_type.to_s)
+  end
 end

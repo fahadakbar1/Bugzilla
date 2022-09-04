@@ -1,0 +1,6 @@
+<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 20px">
+  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+  <%= link_to "Sign out", destroy_user_session_path ,
+  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
+   :class => "btn btn-lg btn-danger"}%>
+</nav>

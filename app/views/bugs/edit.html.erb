@@ -1,10 +1,4 @@
-<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0; padding: 20px 50px; box-shadow: 0 8px 8px -2px rgba(0,0,0,.2);">
-  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
-  <%= link_to "Sign out", destroy_user_session_path ,
-  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
-   :class => "btn btn-lg btn-danger"}%>
-</nav>
-
+<%= render "shared/navigationbar" %>
 
 <body style="background-color: #00203FFF;">
 <section class="container mx-auto" style=" padding:50px 200px; ">

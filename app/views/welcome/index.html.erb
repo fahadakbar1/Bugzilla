@@ -1,78 +1,52 @@
 <div id="user_nav" style=" height: 100vh; border-radius: 0;">
 
-<% if user_signed_in? %>
+  <% if user_signed_in? %>
 
-<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px;">
-  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
-  <%= link_to "Sign out", destroy_user_session_path ,
-  {:method => :delete, :style=>'color:white; font-size:15px; width:10%; margin-top: 5px; padding: 10px; color: white; float: right;',
-   :class => "btn btn-lg btn-danger"}%>
-</nav>
+  <%= render "shared/navigationbar" %>
 
+  <div style=" padding: 100px 150px 0px; ">
+    <h1 class="text-center text-uppercase " style="font-size:90px; font-weight: 400; font-family: Sans-serif">Welcome to Bugzilla</h1>
 
-<div style=" padding: 100px 150px 0px; ">
-<h1 class="text-center text-uppercase " style="font-size:90px; font-weight: 400; font-family: Sans-serif">Welcome to Bugzilla</h1>
+    <br/>
 
-<br/>
+    <h4 class="text-center" style="font-weight: 400; font-family: Sans-serif; width:95%;letter-spacing: 0.1em;text-align:justify; margin:auto; ">
+      Bugzilla is a robust, featureful and mature defect-tracking system, or bug-tracking system. Defect-tracking systems allow teams of
+      developers to keep track of outstanding bugs, problems, issues, enhancement and other change requests in their products effectively.
+      Simple defect-tracking capabilities are often built into integrated source code management environments such as Github or other web-based
+      or locally-installed equivalents. We find organizations turning to Bugzilla when they outgrow the capabilities of those systems -
+      for example, because they want workflow management, or bug visibility control (security), or custom fields.  <br/>  <br/>
+      <%= current_user.username %> you are signed in as  <%= current_user.roles.pluck(:name).first%>  </h4>  <br/>  <br/>  <br/>
 
+      <div style=" text-align :center; width: 100%; margin: auto;">
+       <%= link_to "View your Projects", projects_path , {:style=>'width:30%;', :class => "btn btn-lg btn-success w-100"}%>
+     </div>
 
-<h4 class="text-center" style="font-weight: 400; font-family: Sans-serif; width:95%;letter-spacing: 0.1em;text-align:justify; margin:auto; ">
-Bugzilla is a robust, featureful and mature defect-tracking system, or bug-tracking system. Defect-tracking systems allow teams of
-developers to keep track of outstanding bugs, problems, issues, enhancement and other change requests in their products effectively.
-Simple defect-tracking capabilities are often built into integrated source code management environments such as Github or other web-based
-or locally-installed equivalents. We find organizations turning to Bugzilla when they outgrow the capabilities of those systems -
-for example, because they want workflow management, or bug visibility control (security), or custom fields.
+   </div>
 
-<br/>
-<br/>
+   <% else %>
 
+   <nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 20px">
+    <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+  </nav>
 
-<%= current_user.username %> you are signed in as  <%= current_user.roles.pluck(:name).first%>  </h4>
-<br/>
-<br/>
-<br/>
+  <div style=" padding: 100px 150px 0px; ">
 
+    <h1 class="text-center text-uppercase " style="font-size:90px; font-weight: 400; font-family: Sans-serif">Welcome to Bugzilla</h1>  <br/>
 
-<div style=" text-align :center; width: 100%; margin: auto;">
- <%= link_to "View your Projects", projects_path , {:style=>'width:30%;', :class => "btn btn-lg btn-success w-100"}%>
-</div>
+    <h4 class="text-center" style="font-weight: 400; font-family: Sans-serif; width:95%;letter-spacing: 0.1em;text-align:justify; margin:auto; ">
+      Bugzilla is a robust, featureful and mature defect-tracking system, or bug-tracking system. Defect-tracking systems allow teams of
+      developers to keep track of outstanding bugs, problems, issues, enhancement and other change requests in their products effectively.
+      Simple defect-tracking capabilities are often built into integrated source code management environments such as Github or other web-based
+      or locally-installed equivalents. We find organizations turning to Bugzilla when they outgrow the capabilities of those systems -
+      for example, because they want workflow management, or bug visibility control (security), or custom fields.  <br/>  <br/>
+      <span style=" color: red;">You are not signed in.</span> Please </h4>  <br/>  <br/>  <br/>
 
-</div>
+      <div style=" text-align :center; width: 100%; margin: auto;">
+       <%= link_to "Sign In", new_user_session_path , {:style=>'width:20%;', :class => "btn btn-lg btn-success w-100"}%> or
+       <%= link_to "Register", new_user_registration_path , {:style=>'width:20%;', :class => "btn btn-lg btn-primary w-100"}%>
+     </div>
 
-  <% else %>
+   </div>
 
-<nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px;">
-  <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
-</nav>
-
-
-<div style=" padding: 100px 150px 0px; ">
-<h1 class="text-center text-uppercase " style="font-size:90px; font-weight: 400; font-family: Sans-serif">Welcome to Bugzilla</h1>
-
-<br/>
-
-
-<h4 class="text-center" style="font-weight: 400; font-family: Sans-serif; width:95%;letter-spacing: 0.1em;text-align:justify; margin:auto; ">
-Bugzilla is a robust, featureful and mature defect-tracking system, or bug-tracking system. Defect-tracking systems allow teams of
-developers to keep track of outstanding bugs, problems, issues, enhancement and other change requests in their products effectively.
-Simple defect-tracking capabilities are often built into integrated source code management environments such as Github or other web-based
-or locally-installed equivalents. We find organizations turning to Bugzilla when they outgrow the capabilities of those systems -
-for example, because they want workflow management, or bug visibility control (security), or custom fields.
-
-<br/>
-<br/>
-<span style=" color: red;">You are not signed in.</span> Please </h4>
-<br/>
-<br/>
-<br/>
-
-
-<div style=" text-align :center; width: 100%; margin: auto;">
- <%= link_to "Sign In", new_user_session_path , {:style=>'width:20%;', :class => "btn btn-lg btn-success w-100"}%> or
- <%= link_to "Register", new_user_registration_path , {:style=>'width:20%;', :class => "btn btn-lg btn-primary w-100"}%>
-</div>
-
-</div>
-
-<% end %>
-</div>
+   <% end %>
+ </div>
