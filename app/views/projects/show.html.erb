@@ -87,7 +87,7 @@
   </thead>
   <tbody>
    <% @project.bugs.each do |bug| %>
-   <%if (bug.user_id==current_user.id) %>
+   <%if (bug.dev_id==current_user.id) %>
    <tr style="height: 50px;">
     <td style="vertical-align: middle;"><%= bug.title %></td>
     <td style="vertical-align: middle;"><%= bug.description %></td>
@@ -139,7 +139,7 @@
   </thead>
   <tbody>
    <% @project.bugs.each do |bug| %>
-   <%if (bug.user_id!=current_user.id) %>
+   <%if (bug.dev_id!=current_user.id) %>
    <tr style="height: 50px;">
     <td style="vertical-align: middle;"><%= bug.title %></td>
     <td style="vertical-align: middle;"><%= bug.description %></td>

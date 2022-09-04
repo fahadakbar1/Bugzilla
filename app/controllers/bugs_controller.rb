@@ -2,7 +2,7 @@
 
 class BugsController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :fetch_bug, only: %i[create]
   before_action :resolved_or_completed, only: [:markcomplete]
 
   def new
@@ -16,9 +16,6 @@ class BugsController < ApplicationController
   end
 
   def create
-    @user = User.find(current_user.id)
-    @project = Project.find(params[:project_id])
-    @bug = @project.bugs.new(bug_params)
     authorize @bug
     if @bug.save
       redirect_to project_path(@project)
@@ -43,7 +40,7 @@ class BugsController < ApplicationController
 
   def assign
     @bug = Bug.find(params[:bid])
-    @bug.user_id = current_user.id
+    @bug.dev_id = current_user.id
     @bug.status = 1
     @bug.save
     @project = Project.find(params[:pid])
@@ -70,5 +67,12 @@ class BugsController < ApplicationController
                     3
                   end
     @bug.save
+  end
+
+  def fetch_bug
+    @user = User.find(current_user.id)
+    @project = Project.find(params[:project_id])
+    @bug = @project.bugs.new(bug_params)
+    @bug.user_id = current_user.id
   end
 end
