@@ -4,7 +4,7 @@
   <h1 style="color: #00203FFF"> <%= @project.title %> </h1>
   <p class="lead"> <%= @project.description %> </p>
   <hr class="my-4">
-  <p>Manager : <%= @project.users.pluck(:username).first %></p>
+  <p>Manager : <%= @project.users.pluck(:username).last %></p>
 
   <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
   <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
