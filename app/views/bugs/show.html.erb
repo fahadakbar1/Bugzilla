@@ -1,25 +1,19 @@
-<!--<p>
-  <strong>Title:</strong>
-  <%= @bug.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @bug.description %>
-</p>
-
-<p>
-  <strong>Deadline:</strong>
-  <%= @bug.deadline %>
-</p>
-
-<p>
+<div class="jumbotron" style="width: 97%; background-color: #ebf2ff; margin:auto; padding: 20px 50px 50px; border-radius: 5px; margin-top: 20px;">
+  <h1 style="color: #00203FFF"> <%= @bug.title %> </h1>
+  <p class="lead"> <%= @bug.description %> </p>
+  <hr class="my-4">
+  <p class="lead"> <%= @bug.deadline %> </p>
+  <p>
   <strong>Screenshot:</strong>
   <br>
   <% if @bug.screenshot.attached?%>
   <%= image_tag @bug.screenshot, width:"500px"%>
 <% end %></p>
 
-<%= link_to 'Edit', edit_bug_path(@bug) %>
-<%= link_to 'Back', bugs_path %>
--->
+  <%if (current_user.user_type=='QA') %>
+  <%= link_to 'Edit', edit_project_bug_path(@bug) , { :class => "btn btn-success btn-sm"}%>
+  <% end %>
+
+  <%= link_to 'Back', project_path , { :class => "btn btn-primary btn-sm"}%>  <br/>  <br/>
+
+</div>

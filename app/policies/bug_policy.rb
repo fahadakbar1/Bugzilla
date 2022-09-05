@@ -11,4 +11,14 @@ class BugPolicy < ApplicationPolicy
   def create?
     @user.has_role? :QA
   end
+
+ def update?
+    @user.has_role? :QA
+  end
+
+  def destroy?
+    @user.has_role? :QA
+  end
+
+
 end

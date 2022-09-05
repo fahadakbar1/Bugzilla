@@ -8,10 +8,6 @@ class ProjectPolicy < ApplicationPolicy
     end
   end
 
-  def index?
-    @user.has_any_role? :Manager, :QA, :Developer
-  end
-
   def create?
     @user.has_role? :Manager
   end

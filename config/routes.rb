@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   post '/assign', to: 'bugs#assign', as: 'assign'
   post '/markcomplete', to: 'bugs#markcomplete', as: 'markcomplete'
 
-  root to: 'welcome#index'
+  root to: 'projects#welcome'
 end

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:welcome]
+
+  def welcome; end
 
   def index
     @projects = Project.all
-    authorize @projects
   end
 
   def show

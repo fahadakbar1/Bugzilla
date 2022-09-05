@@ -5,13 +5,10 @@ class Bug < ApplicationRecord
   validate :attached_screenshot_type
 
   has_one_attached :screenshot
-
   belongs_to :project
-
   belongs_to :user
 
   enum bugtype: { bug: 0, feature: 1 }
-
   enum status: { newbug: 0, started: 1, resolved: 2, completed: 3 }
 
   private

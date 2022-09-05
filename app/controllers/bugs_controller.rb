@@ -15,6 +15,10 @@ class BugsController < ApplicationController
     @project = Project.find(params[:id])
   end
 
+  def show
+    @bug = Bug.find(params[:project_id])
+  end
+
   def create
     authorize @bug
     if @bug.save
@@ -27,6 +31,7 @@ class BugsController < ApplicationController
   def update
     @project = Project.find(params[:project_id])
     @bug = Bug.find(params[:id])
+    authorize @bug
     @bug.update(bug_params)
     redirect_to @project
   end
@@ -34,6 +39,7 @@ class BugsController < ApplicationController
   def destroy
     @project = Project.find(params[:project_id])
     @bug = @project.bugs.find(params[:id])
+    authorize @bug
     @bug.destroy
     redirect_to project_path(@project)
   end
