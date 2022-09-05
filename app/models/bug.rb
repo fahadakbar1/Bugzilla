@@ -3,6 +3,7 @@
 class Bug < ApplicationRecord
   validates :title, :bugtype, presence: true
   validate :attached_screenshot_type
+  validates :title, uniqueness: { case_sensitive: false }
 
   has_one_attached :screenshot
   belongs_to :project
