@@ -82,6 +82,7 @@
       <th style="vertical-align: middle;">Screenshot</th>
       <th style="vertical-align: middle;">Type</th>
       <th style="vertical-align: middle;">Status</th>
+      <th style="vertical-align: middle;">View</th>
       <th style="vertical-align: middle;">Mark it Complete</th>
     </tr>
   </thead>
@@ -95,6 +96,7 @@
     <td style="vertical-align: middle;"><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
     <td style="vertical-align: middle;"><%= bug.bugtype %></td>
     <td style="vertical-align: middle;"><%= bug.status %></td>
+    <td style="vertical-align: middle;"><%= link_to 'View', project_bug_path(bug) %></td>
     <%if (current_user.user_type=='Developer') %>
     <td>
       <%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
@@ -128,7 +130,7 @@
       <th style="vertical-align: middle;">Screenshot</th>
       <th style="vertical-align: middle;">Type</th>
       <th style="vertical-align: middle;">Status</th>
-      <th style="vertical-align: middle;">Show</th>
+      <th style="vertical-align: middle;">View</th>
       <%if (current_user.user_type=='QA' ) %>
       <th style="vertical-align: middle;">Edit</th>
       <th style="vertical-align: middle;">Delete</th>
@@ -148,7 +150,7 @@
     <td style="vertical-align: middle;"><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
     <td style="vertical-align: middle;"><%= bug.bugtype %></td>
     <td style="vertical-align: middle;"><%= bug.status %></td>
-    <td style="vertical-align: middle;"><%= link_to 'Show', project_bug_path(bug) %></td>
+    <td style="vertical-align: middle;"><%= link_to 'View', project_bug_path(bug) %></td>
     <%if (current_user.user_type=='QA' ) %>
     <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
     <td style="vertical-align: middle;"><%= link_to 'Delete', [bug.project, bug],

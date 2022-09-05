@@ -10,9 +10,7 @@
   <%= image_tag @bug.screenshot, width:"500px"%>
 <% end %></p>
 
-  <%if (current_user.user_type=='QA') %>
-  <%= link_to 'Edit', edit_project_bug_path(@bug) , { :class => "btn btn-success btn-sm"}%>
-  <% end %>
+  <p class="lead"> <%= @bug.status %> </p>
 
   <%= link_to 'Back', project_path , { :class => "btn btn-primary btn-sm"}%>  <br/>  <br/>
 
