@@ -12,13 +12,11 @@ class BugPolicy < ApplicationPolicy
     @user.has_role? :QA
   end
 
- def update?
+  def update?
     @user.has_role? :QA
   end
 
   def destroy?
     @user.has_role? :QA
   end
-
-
 end

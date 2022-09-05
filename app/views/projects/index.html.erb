@@ -11,7 +11,7 @@
      <tr style="height: 50px;">
       <th style="vertical-align: middle;">Title</th>
       <th style="vertical-align: middle;">Description</th>
-      <th style="vertical-align: middle;">Show</th>
+      <th style="vertical-align: middle;">View</th>
       <%if ( current_user.user_type=='Manager') %>
       <th style="vertical-align: middle;">Edit</th>
       <th style="vertical-align: middle;">Delete</th>
@@ -23,7 +23,7 @@
    <tr style="height: 50px;">
     <td style="vertical-align: middle;"><%= project.title %></td>
     <td style="vertical-align: middle;"><%= project.description%></td>
-    <td style="vertical-align: middle;"><%= link_to 'Show', project_path(project) %></td>
+    <td style="vertical-align: middle;"><%= link_to 'View', project_path(project) %></td>
     <%if ( current_user.user_type=='Manager') %>
     <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_path(project) %></td>
     <td style="vertical-align: middle;"><%= link_to 'Delete', project_path(project),
@@ -36,8 +36,9 @@
 </table>
 
 <%if ( current_user.user_type=='Manager') %>
-<%= link_to 'Create New Project', new_project_path , {:style=>'width:15%;', :class => "btn btn-success"}%>
+   <%= link_to 'Create New Project', new_project_path , {:style=>'width:15%;', :class => "btn btn-success"}%>
 <% end %>
+<%= link_to 'Back', root_path , { :class => "btn btn-primary btn-sm"}%>
 </div>
 
 <br />
@@ -52,7 +53,7 @@
       <tr style="height: 50px;">
         <th style="vertical-align: middle;">Title</th>
         <th style="vertical-align: middle;">Description</th>
-        <th style="vertical-align: middle;">Show</th>
+        <th style="vertical-align: middle;">View</th>
       </tr>
     </thead>
     <tbody>
@@ -64,7 +65,7 @@
       <tr style="height: 50px;">
         <td style="vertical-align: middle;"><%= project.title %></td>
         <td style="vertical-align: middle;"><%= project.description%></td>
-        <td style="vertical-align: middle;"><%= link_to 'Show', project_path(project) %></td>
+        <td style="vertical-align: middle;"><%= link_to 'View', project_path(project) %></td>
         <%if (current_user.id == project.users.pluck(:id))%>
         <td style="vertical-align: middle;"><%= link_to 'Edit', edit_project_path(project) %></td>
         <td style="vertical-align: middle;"><%= link_to 'Destroy', project_path(project),
@@ -79,5 +80,4 @@
       <% end %>
     </tbody>
   </table>
-
 </div>
