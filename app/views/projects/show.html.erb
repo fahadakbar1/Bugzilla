@@ -4,7 +4,7 @@
   <h1> <%= @project.title %> </h1>
   <p class="lead"> <%= @project.description %> </p>
   <hr class="my-4">
-  <p>Manager : <%= @project.users.pluck(:username).last %></p>
+  <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
 
   <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
   <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
@@ -99,12 +99,19 @@
     <td><%= link_to 'View', project_bug_path(bug) %></td>
     <%if (current_user.user_type=='Developer') %>
     <td>
-      <%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
+   <%if (bug.status=="Completed" || bug.status=="Resolved") %>
+      <%= button_to 'Mark it Complete', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
+
+    <% else %>
+
+    <%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
       <%= f.hidden_field :pid, :value => @project.id %>
       <%= f.hidden_field :bid, :value => bug.id %>
       <%= f.submit "Mark it Complete" , { :class => "btn btn-success btn-sm"}%>
       <% end %>
-      </  td>
+
+    <% end %>
+      </td>
       <% end %>
     </tr>
     <% end %>
