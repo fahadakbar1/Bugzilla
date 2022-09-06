@@ -1,3 +1,50 @@
-// Place all the styles related to the Projects controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#welcome_page{height: 100vh; border-radius: 0;}
+
+.notsigned {padding: 100px 150px 0px;}
+
+.welcome_page_content{
+  padding: 100px 150px 0px;
+
+  h1{ font-size:90px; font-weight: 400; font-family: Sans-serif; }
+
+  h4{ font-weight: 400; font-family: Sans-serif; width:95%; letter-spacing: 0.1em; text-align:justify; margin:auto; }
+
+  div{ text-align :center; width: 100%; margin: auto; }
+}
+
+
+.jumbotron {
+  width: 97%; background-color: #ebf2ff; margin:auto; padding: 20px 50px 50px; border-radius: 5px; margin-top: 20px;
+  h1{color: #00203FFF}
+  .tags{float:right;}
+}
+
+.add_remove_dev_qa{
+  width: 97%; margin:auto;
+
+  h1{color: #00203FFF;}
+
+  .add_remove_dev{width: 49%; margin:auto; display: inline-block;}
+
+  .add_remove_qa{width: 49%; margin-left: 20px;display: inline-block;}
+
+  .select_fild{margin-bottom:10px;}
+}
+
+.bugs_and_projects_table{
+  width: 97%; margin:auto;
+  h1{color: #00203FFF;}
+  thead{background-color:#dedede;}
+}
+
+.new_edit_project{
+
+  section{padding:130px 200px 0;}
+
+  row{padding: 50px 100px; border-radius: 5px;background-color: white;}
+
+  h3{letter-spacing: 1px;}
+
+}
+
+

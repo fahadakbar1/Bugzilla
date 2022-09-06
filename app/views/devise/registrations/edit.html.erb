@@ -1,8 +1,6 @@
 <body style="background-color: #00203FFF;">
 
-  <nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px; box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px">
-    <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
-  </nav>
+<%= render "shared/notSignedInNavbar" %>
 
   <section class="container mx-auto" style=" padding: 10px 200px 30px; ">
     <div class="row" style=" padding: 50px 100px; border-radius: 5px;background-color: white;">
@@ -55,3 +53,8 @@
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), class: 'btn btn-danger btn-lg btn-block', data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
+
+</div>
+</div>
+</section>
+</body>

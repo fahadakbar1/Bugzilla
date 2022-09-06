@@ -1,3 +1,11 @@
-// Place all the styles related to the Bugs controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+section{padding:50px 200px;}
+
+.row{padding: 50px 100px; border-radius: 5px;background-color: white;}
+
+h3{letter-spacing: 1px;}
+
+.jumbotron{
+  width: 97%; background-color: #ebf2ff; margin:auto; padding: 20px 50px 50px; border-radius: 5px; margin-top: 20px;
+
+  h1{color: #00203FFF}
+}

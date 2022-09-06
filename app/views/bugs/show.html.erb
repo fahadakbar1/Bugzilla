@@ -1,21 +1,22 @@
 <%= render "shared/navigationbar" %>
 
-<div class="jumbotron" style="width: 97%; background-color: #ebf2ff; margin:auto; padding: 20px 50px 50px; border-radius: 5px; margin-top: 20px;">
-  <h1 style="color: #00203FFF"> <%= @bug.title %> </h1>
+<div class="jumbotron">
+
+  <h1> <%= @bug.title %> </h1>
   <p class="lead"> <%= @bug.description %> </p>
+
   <hr class="my-4">
-  <strong>Deadline:</strong>
-  <%= @bug.deadline %>  <br/>  <br/>
 
-  <strong>Screenshot:</strong>
-  <br/><br/>
+  <strong>Deadline:</strong> <%= @bug.deadline %>  <br/>  <br/>
+
+  <strong>Screenshot:</strong> <br/> <br/>
   <p>
-  <% if @bug.screenshot.attached?%>
-  <%= image_tag @bug.screenshot, width:"500px"%>
-  <% end %></p>
+    <% if @bug.screenshot.attached?%>
+    <%= image_tag @bug.screenshot, width:"500px"%>
+    <% end %>
+  </p>
 
-  <strong>Status:</strong><%= @bug.status %> <br/><br/>
+  <strong>Status: </strong><%= @bug.status %> <br/><br/>
 
   <%= link_to 'Back', project_path , { :class => "btn btn-primary btn-sm"}%>  <br/>  <br/>
-
 </div>
