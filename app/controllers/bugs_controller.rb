@@ -67,7 +67,7 @@ class BugsController < ApplicationController
   def resolved_or_completed
     @bug = Bug.find(params[:bid])
     @bug.user_id = current_user.id
-    @bug.status = if @bug.bugtype == 'bug'
+    @bug.status = if @bug.bugtype == 'Bug'
                     2
                   else
                     3
