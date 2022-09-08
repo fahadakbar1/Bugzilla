@@ -78,6 +78,12 @@ gem 'pundit', '~> 2.2'
 
 gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 
+gem 'jquery-rails', '~> 4.5'
+
+gem 'client_side_validations', '~> 20.0', '>= 20.0.2'
+
+gem 'cloudinary', '~> 1.23'
+
 group :development, :test do
   gem 'rubocop'
   gem 'rubocop-minitest'

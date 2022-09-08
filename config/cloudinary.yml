@@ -1,0 +1,18 @@
+#development:
+#  cloud_name: ddhcsw2ke
+#  api_key: '651475646858981'
+#  api_secret: "1rm-LsgKKq6Boeyei8aXKdc_4d8"
+#  enhance_image_tag: true
+#  static_file_support: false
+#production:
+#  cloud_name: ddhcsw2ke
+#  api_key: '651475646858981'
+#  api_secret: "1rm-LsgKKq6Boeyei8aXKdc_4d8"
+#  enhance_image_tag: true
+#  static_file_support: true
+#test:
+#  cloud_name: ddhcsw2ke
+#  api_key: '651475646858981'
+#  api_secret: "1rm-LsgKKq6Boeyei8aXKdc_4d8"
+#  enhance_image_tag: true
+#  static_file_support: false

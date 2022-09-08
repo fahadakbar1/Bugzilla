@@ -15,12 +15,9 @@ class Bug < ApplicationRecord
 
   private
 
-def not_past_date
-  if self.deadline < Date.today
-    errors.add(:deadline, ' of the bug can not be in the past')
+  def not_past_date
+    errors.add(:deadline, ' of the bug can not be in the past') if deadline < Time.zone.today
   end
-end
-
 
   def attached_screenshot_type
     errors.add(:screenshot, 'must be PNG or GIF file') if screenshot.attached? && !screenshot.content_type.in?(%w[image/png image/gif])

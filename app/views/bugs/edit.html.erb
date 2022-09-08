@@ -7,7 +7,7 @@
 
       <h3 class="text-center">Edit Bug</h3>
 
-      <%= form_with(model:[@project, @bug], local: true) do |form| %>
+      <%= form_with(model:[@project, @bug], local: true, :validate => true) do |form| %>
 
       <% if @bug.errors.any? %>
       <div id="error_explanation">

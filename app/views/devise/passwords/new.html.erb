@@ -15,7 +15,8 @@
 
       <div class="form-group">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: 'form-control input-lg'%>
+        <%=f.email_field :email, :required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' , :class => 'form-control input-lg'%>
+
       </div>
 
       <div class="actions">
