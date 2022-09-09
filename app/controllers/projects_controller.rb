@@ -54,15 +54,11 @@ class ProjectsController < ApplicationController
   end
 end
 
-
-
-
   private
 
   def project_params
     params.require(:project).permit(:title, :description)
   end
-
 
   def fetch_project
     @project = Project.find(params[:id])

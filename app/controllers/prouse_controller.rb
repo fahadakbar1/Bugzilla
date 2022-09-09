@@ -5,7 +5,7 @@ class ProuseController < ApplicationController
   before_action :fetch_selected_qa, only: %i[addqa removeqa]
 
   def adddev
-    if Prouse.exists?(Prouse.where(project_id: params[:project], user_id: @developer.id))
+    if Prouse.exists?(Prouse.check_existing_developer(params[:project], @developer.id))
       redirect_to project_path(@projid), notice: "#{@dev} is already the developer of this project"
     else
       Prouse.create(project_id: params[:project], user_id: @developer.id)
@@ -14,7 +14,7 @@ class ProuseController < ApplicationController
   end
 
   def addqa
-    if Prouse.exists?(Prouse.where(project_id: params[:project], user_id: @selected_qa.id))
+    if Prouse.exists?(Prouse.check_existing_developer(params[:project], @selected_qa.id))
       redirect_to project_path(@projid), notice: "#{@qa} is already the QA of this project"
     else
       Prouse.create(project_id: params[:project], user_id: @selected_qa.id)
@@ -23,8 +23,8 @@ class ProuseController < ApplicationController
   end
 
   def removedev
-    if Prouse.exists?(Prouse.where(project_id: params[:project], user_id: @developer.id))
-      Prouse.delete(Prouse.where(project_id: params[:project], user_id: @developer.id))
+    if Prouse.exists?(Prouse.check_existing_developer(params[:project], @developer.id))
+      Prouse.delete(Prouse.check_existing_developer(params[:project], @developer.id))
       redirect_to project_path(@projid), notice: "Developer #{@dev} has been removed from this project"
     else
       redirect_to project_path(@projid), notice: "#{@dev} is not the developer of this project"
@@ -32,8 +32,8 @@ class ProuseController < ApplicationController
   end
 
   def removeqa
-    if Prouse.exists?(Prouse.where(project_id: params[:project], user_id: @selected_qa.id))
-      Prouse.delete(Prouse.where(project_id: params[:project], user_id: @selected_qa.id))
+    if Prouse.exists?(Prouse.check_existing_developer(params[:project], @selected_qa.id))
+      Prouse.delete(Prouse.check_existing_developer(params[:project], @selected_qa.id))
       redirect_to project_path(@projid), notice: "QA #{@qa} has been removed from this project"
     else
       redirect_to project_path(@projid), notice: "#{@qa} is not the QA of this project"
