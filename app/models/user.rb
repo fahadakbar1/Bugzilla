@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   after_create :set_user_role
 
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
   has_many :prouse, dependent: :destroy
   has_many :bugs, dependent: :destroy
   has_many :projects, through: :prouse, dependent: :destroy

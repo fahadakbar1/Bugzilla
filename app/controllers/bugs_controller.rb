@@ -24,7 +24,7 @@ class BugsController < ApplicationController
     if @bug.save
       redirect_to project_path(@project)
     else
-      render :new
+      redirect_to new_bug_url, notice: ' Project was not created '
     end
   end
 
@@ -32,25 +32,35 @@ class BugsController < ApplicationController
     @project = Project.find(params[:project_id])
     @bug = Bug.find(params[:id])
     authorize @bug
-    @bug.update(bug_params)
-    redirect_to @project
+    if @bug.update(bug_params)
+      redirect_to @project
+    else
+      redirect_to edit_bug_url, notice: ' Bug was not updated '
+    end
+
   end
 
   def destroy
     @project = Project.find(params[:project_id])
     @bug = @project.bugs.find(params[:id])
     authorize @bug
-    @bug.destroy
+
+    if @bug.destroy
     redirect_to project_path(@project)
+  else
+    redirect_to project_path(@project), notice: ' Bug was not destroyed '
+  end
   end
 
   def assign
     @bug = Bug.find(params[:bid])
     @bug.dev_id = current_user.id
     @bug.status = 1
-    @bug.save
+    if @bug.save
     @project = Project.find(params[:pid])
     redirect_to @project
+  else
+    redirect_to project_path(@project), notice: ' Bug was not assigned '
   end
 
   def markcomplete
