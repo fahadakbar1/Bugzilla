@@ -2,8 +2,8 @@
 
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: [:welcome]
-  before_action :fetch_project, only: %i[show, edit]
-  before_action :fetch_user, only: %i[create, destroy, :update]
+  before_action :fetch_project, only: %i[show edit]
+  before_action :fetch_user, only: %i[create destroy update]
 
   def welcome; end
 
@@ -22,8 +22,7 @@ class ProjectsController < ApplicationController
     render 'new'
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     fetch_user
@@ -32,7 +31,7 @@ class ProjectsController < ApplicationController
     if @project.save
       redirect_to @project
     else
-     redirect_to new_project_url, notice: ' Project was not created '
+      redirect_to new_project_url, notice: ' Project was not created '
     end
   end
 
@@ -50,9 +49,9 @@ class ProjectsController < ApplicationController
     if @project.destroy
       redirect_to projects_path
     else
-    redirect_to project_path, notice: ' Project was not deleted '
+      redirect_to project_path, notice: ' Project was not deleted '
+    end
   end
-end
 
   private
 
@@ -67,6 +66,4 @@ end
   def fetch_user
     @user = User.find(current_user.id)
   end
-
-
 end
