@@ -3,7 +3,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: [:welcome]
   before_action :fetch_user, only: %i[create destroy update]
-   before_action :fetch_create_project, only: %i[create]
+  before_action :fetch_create_project, only: %i[create]
   before_action :fetch_project, only: %i[show edit update]
   before_action :fetch_destroy_project, only: %i[destroy]
 
@@ -50,7 +50,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-private
+  private
+
   def fetch_create_project
     @project = @user.projects.new(project_params)
   end
