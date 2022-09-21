@@ -9,10 +9,10 @@ Rails.application.routes.draw do
   end
 
   resources :prouses do
-    post '/adddev', to: 'prouse#adddev', as: 'adddev'
-    post '/addqa', to: 'prouse#addqa', as: 'addqa'
-    post '/removedev', to: 'prouse#removedev', as: 'removedev'
-    post '/removeqa', to: 'prouse#removeqa', as: 'removeqa'
+    post '/add_developer', to: 'prouse#add_developer', as: 'add_developer'
+    post '/add_qa', to: 'prouse#add_qa', as: 'add_qa'
+    post '/remove_developer', to: 'prouse#remove_developer', as: 'remove_developer'
+    post '/remove_qa', to: 'prouse#remove_qa', as: 'remove_qa'
   end
 
   post '/assign', to: 'bugs#assign', as: 'assign'

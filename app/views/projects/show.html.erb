@@ -26,7 +26,7 @@
   <h1>Assign Developers and QA's to this Project</h1>  <br/>
 
   <div class= "add_remove_dev">
-    <%= form_with url: prouse_adddev_path(@project.id), local: true do |f|%>
+    <%= form_with url: prouse_add_developer_path(@project.id), local: true do |f|%>
     <%= f.select(:developer_for_this_project, @developers.pluck(:username) , {}, {class: "form-control input-md select_fild"}) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Add Developer To This Project" , class: 'btn btn-success btn-md btn-block'%>
@@ -34,7 +34,7 @@
   </div>
 
   <div class= "add_remove_qa">
-    <%= form_with url: prouse_addqa_path(@project), local: true do |f| %>
+    <%= form_with url: prouse_add_qa_path(@project), local: true do |f| %>
     <%= f.select(:qas_for_this_project, @qas.pluck(:username) , {}, { class: "form-control input-md select_fild"}) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Add QA To This Project" , class: 'btn btn-success btn-md btn-block'%>
@@ -48,7 +48,7 @@
   <h1>Remove Developers and QAs from this Project</h1>  <br/>
 
   <div class= "add_remove_dev">
-    <%= form_with url: prouse_removedev_path(@project.id), remote:true, local: true do |f| %>
+    <%= form_with url: prouse_remove_developer_path(@project.id), remote:true, local: true do |f| %>
     <%= f.select(:developer_for_this_project, @developers.pluck(:username), {}, { class: "form-control input-md select_fild" }) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Remove Developer From This Project" , class: 'btn btn-danger btn-md btn-block'%>
@@ -56,7 +56,7 @@
   </div>
 
   <div class= "add_remove_qa">
-    <%= form_with url: prouse_removeqa_path(@project.id), remote:true, local: true do |f| %>
+    <%= form_with url: prouse_remove_qa_path(@project.id), remote:true, local: true do |f| %>
     <%= f.select(:qas_for_this_project, @qas.pluck(:username), {}, { class: "form-control input-md select_fild" }) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Remove QA From This Project" , class: 'btn btn-danger btn-md btn-block'%>

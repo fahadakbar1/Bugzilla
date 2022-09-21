@@ -2,13 +2,13 @@
 
 class BugsController < ApplicationController
   before_action :authenticate_user!
-  before_action :bug_by_id, only: %i[update]
-  before_action :project_by_project_id, only: %i[new create update destroy]
-  before_action :create_bug, only: %i[create]
-  before_action :project_by_id, only: %i[edit]
-  before_action :bug_by_project_id, only: %i[edit show]
-  before_action :bug_by_bid, only: %i[markcomplete assign]
-  before_action :project_by_pid, only: %i[assign markcomplete]
+  before_action :find_bug, only: %i[update]
+  before_action :original_project, only: %i[new create update destroy]
+  before_action :current_user_bug, only: %i[create]
+  before_action :current_project, only: %i[edit]
+  before_action :project_bug, only: %i[edit show]
+  before_action :developer_bug, only: %i[markcomplete assign]
+  before_action :developer_project, only: %i[assign markcomplete]
 
   def new
     @bug = Bug.new
@@ -78,31 +78,31 @@ class BugsController < ApplicationController
     params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bugtype, :status)
   end
 
-  def bug_by_project_id
+  def project_bug
     @bug = Bug.find(params[:project_id])
   end
 
-  def project_by_id
+  def current_project
     @project = Project.find(params[:id])
   end
 
-  def bug_by_id
+  def find_bug
     @bug = Bug.find(params[:id])
   end
 
-  def bug_by_bid
+  def developer_bug
     @bug = Bug.find(params[:bid])
   end
 
-  def project_by_pid
+  def developer_project
     @project = Project.find(params[:pid])
   end
 
-  def project_by_project_id
+  def original_project
     @project = Project.find(params[:project_id])
   end
 
-  def create_bug
+  def current_user_bug
     @user = User.find(current_user.id)
     @bug = @project.bugs.new(bug_params)
     @bug.user_id = current_user.id

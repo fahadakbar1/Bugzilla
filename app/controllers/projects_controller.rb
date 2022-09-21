@@ -2,10 +2,10 @@
 
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: [:welcome]
-  before_action :fetch_user, only: %i[create destroy update]
-  before_action :fetch_create_project, only: %i[create]
-  before_action :fetch_project, only: %i[show edit update]
-  before_action :fetch_destroy_project, only: %i[destroy]
+  before_action :find_current_user, only: %i[create destroy update]
+  before_action :user_project, only: %i[create]
+  before_action :project_by_id, only: %i[show edit update]
+  before_action :user_project_by_id, only: %i[destroy]
 
   def welcome; end
 
@@ -52,23 +52,23 @@ class ProjectsController < ApplicationController
 
   private
 
-  def fetch_create_project
-    @project = @user.projects.new(project_params)
-  end
-
-  def fetch_destroy_project
-    @project = @user.projects.find(params[:id])
-  end
-
   def project_params
     params.require(:project).permit(:title, :description)
   end
 
-  def fetch_project
+  def user_project
+    @project = @user.projects.new(project_params)
+  end
+
+  def user_project_by_id
+    @project = @user.projects.find(params[:id])
+  end
+
+  def project_by_id
     @project = Project.find(params[:id])
   end
 
-  def fetch_user
+  def find_current_user
     @user = User.find(current_user.id)
   end
 end
