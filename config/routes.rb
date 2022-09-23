@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :projects do
-    resources :bugs
+    resources :bugs, except: :index
   end
 
   resources :prouses do

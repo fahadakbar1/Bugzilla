@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   after_create :set_user_role
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, format: { with: /^[\w.]+@(\w+\.)+\w{2,4}/, message: 'Invalid Email Pattern' }
 
   has_many :prouse, dependent: :destroy
   has_many :bugs, dependent: :destroy
