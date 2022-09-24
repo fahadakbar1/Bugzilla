@@ -10,8 +10,8 @@ class Bug < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
-  enum bugtype: { Bug: 0, Feature: 1 }
-  enum status: { Newbug: 0, Started: 1, Resolved: 2, Completed: 3 }
+  enum bugtype: { bug: 0, feature: 1 }
+  enum status: { newbug: 0, started: 1, resolved: 2, completed: 3 }
 
   private
 
