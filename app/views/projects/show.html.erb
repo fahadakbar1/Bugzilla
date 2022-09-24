@@ -5,6 +5,8 @@
   <p class="lead"> <%= @project.description %> </p>
   <hr class="my-4">
   <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
+  <p>Developers : <%= @project.users.with_role(:Developer).pluck(:username) %></p>
+  <p>QAs : <%= @project.users.with_role(:QA).pluck(:username) %></p>
 
   <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
   <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
