@@ -5,8 +5,8 @@
   <p class="lead"> <%= @project.description %> </p>
   <hr class="my-4">
   <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
-  <p>Developers : <%= @project.users.with_role(:Developer).pluck(:username) %></p>
-  <p>QAs : <%= @project.users.with_role(:QA).pluck(:username) %></p>
+  <p>Developers : <%= @project_developers %></p>
+  <p>QAs : <%= @project_qas %></p>
 
   <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
   <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
@@ -29,15 +29,15 @@
 
   <div class= "add_remove_dev">
     <%= form_with url: prouse_add_developer_path(@project.id), local: true do |f|%>
-    <%= f.select(:developer_for_this_project, @developers.pluck(:username) , {}, {class: "form-control input-md select_fild"}) %>
+    <%= f.select(:developer_for_this_project, @all_developers-@project_developers , {}, {class: "form-control input-md select_fild"}) %>
     <%= f.hidden_field :project, :value => @project.id %>
-    <%= f.submit "Add Developer To This Project" , class: 'btn btn-success btn-md btn-block'%>
+    <%= f.submit "Add Developer To This Project", class: 'btn btn-success btn-md btn-block'%>
     <% end %>
   </div>
 
   <div class= "add_remove_qa">
     <%= form_with url: prouse_add_qa_path(@project), local: true do |f| %>
-    <%= f.select(:qas_for_this_project, @qas.pluck(:username) , {}, { class: "form-control input-md select_fild"}) %>
+    <%= f.select(:qas_for_this_project, @all_qas-@project_qas , {}, { class: "form-control input-md select_fild"}) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Add QA To This Project" , class: 'btn btn-success btn-md btn-block'%>
     <% end %>
@@ -51,7 +51,7 @@
 
   <div class= "add_remove_dev">
     <%= form_with url: prouse_remove_developer_path(@project.id), remote:true, local: true do |f| %>
-    <%= f.select(:developer_for_this_project, @developers.pluck(:username), {}, { class: "form-control input-md select_fild" }) %>
+    <%= f.select(:developer_for_this_project, @project_developers, {}, { class: "form-control input-md select_fild" }) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Remove Developer From This Project" , class: 'btn btn-danger btn-md btn-block'%>
     <% end %>
@@ -59,7 +59,7 @@
 
   <div class= "add_remove_qa">
     <%= form_with url: prouse_remove_qa_path(@project.id), remote:true, local: true do |f| %>
-    <%= f.select(:qas_for_this_project, @qas.pluck(:username), {}, { class: "form-control input-md select_fild" }) %>
+    <%= f.select(:qas_for_this_project, @project_qas, {}, { class: "form-control input-md select_fild" }) %>
     <%= f.hidden_field :project, :value => @project.id %>
     <%= f.submit "Remove QA From This Project" , class: 'btn btn-danger btn-md btn-block'%>
     <% end %>
@@ -101,7 +101,7 @@
     <td><%= link_to 'View', project_bug_path(bug) %></td>
     <%if (current_user.user_type=='Developer') %>
     <td>
-   <%if (bug.status=="Completed" || bug.status=="Resolved") %>
+   <%if (bug.status=="completed" || bug.status=="resolved") %>
       <%= button_to 'Mark it Complete', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
 
     <% else %>
@@ -160,7 +160,7 @@
     <td><%= bug.bugtype %></td>
     <td><%= bug.status %></td>
     <td><%= link_to 'View', project_bug_path(bug) %></td>
-    <%if ( bug.user_id==current_user.id && current_user.user_type=='QA' ) %>
+    <%if ( current_user.user_type=='QA' && bug.user_id==current_user.id ) %>
     <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
     <td><%= link_to 'Delete', [bug.project, bug],
     method: :delete,
@@ -168,6 +168,10 @@
     <% end %>
     <%if (current_user.user_type=='Developer') %>
     <td>
+      <%if (bug.status=="completed" || bug.status=="resolved") %>
+      <%= button_to 'Assign Bug To Yourself', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
+
+    <% else %>
       <%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
 
       <%= f.hidden_field :pid, :value => @project.id %>
@@ -175,6 +179,8 @@
       <%= f.submit "Assign Bug To Yourself" , { :class => "btn btn-success btn-sm"}%>
 
       <% end %>
+      <% end %>
+
     </td>
 
     <% end %>
@@ -188,3 +194,4 @@
 <%= link_to 'Add New Bug', new_project_bug_path(@project) , {:style=>'width:15%;', :class => "btn btn-success"}%>
 <% end %>
 </div>
+

@@ -7,7 +7,7 @@
        <div class="col">
         <h3 class="text-center">Add New Project</h3>
 
-        <%= form_with scope: :project, url: projects_path, local: true do |form| %>
+        <%= form_with scope: :project, url: projects_path, local: true,html: {id: "basic-form"} do |form| %>
 
         <% if @project.errors.any? %>
         <div id="error_explanation">

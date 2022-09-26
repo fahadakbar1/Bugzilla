@@ -26,6 +26,7 @@ class ProuseController < ApplicationController
     if Prouse.exists?(Prouse.check_existing_developer(params[:project], @developer.id))
       Prouse.delete(Prouse.check_existing_developer(params[:project], @developer.id))
       redirect_to project_path(@projid), notice: "Developer #{@dev} has been removed from this project"
+
     else
       redirect_to project_path(@projid), notice: "#{@dev} is not the developer of this project"
     end
