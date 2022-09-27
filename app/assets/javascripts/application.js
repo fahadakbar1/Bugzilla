@@ -11,16 +11,8 @@
 // about supported directives.
 //
 
+//= require jquery
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require('@client-side-validations/client-side-validations')
-//= require jquery
-//= require rails.validations
 //= require_tree .
-
-
-
-$(document).ready(function() {
-$("#basic-form").validate();
-});

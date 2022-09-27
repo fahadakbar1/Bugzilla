@@ -78,7 +78,7 @@ gem 'pundit', '~> 2.2'
 
 gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 
-gem 'jquery-rails', '~> 4.5'
+gem 'jquery-rails', '~> 4.4'
 
 gem 'cloudinary', '~> 1.23'
 

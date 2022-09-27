@@ -15,7 +15,7 @@
 
       <div class="form-group">
         <%= f.label :email %><br />
-        <%=f.email_field :email, :required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' , :class => 'form-control input-lg'%>
+        <%=f.email_field :email , :class => 'form-control input-lg'%>
 
       </div>
 
@@ -31,3 +31,14 @@
   </div>
 </section>
 </body>
+
+<script>
+  $('form').validate({
+    onfocusout: function (element) {
+        $(element).valid();
+    },
+    rules: {
+    'user[email]': 'required'
+    }
+});
+</script>

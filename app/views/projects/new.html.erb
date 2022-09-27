@@ -7,7 +7,7 @@
        <div class="col">
         <h3 class="text-center">Add New Project</h3>
 
-        <%= form_with scope: :project, url: projects_path, local: true,html: {id: "basic-form"} do |form| %>
+        <%= form_with scope: :project, url: projects_path, local: true, validate: true do |form| %>
 
         <% if @project.errors.any? %>
         <div id="error_explanation">
@@ -25,13 +25,13 @@
 
         <div class="form-group">
           <%= form.label :title %><br>
-          <%= form.text_field :title, :required => true, :class => 'form-control input-lg', :minlength => 6%>
+          <%= form.text_field :title,  :class => 'form-control input-lg'%>
         </div>
 
         <div class="form-group">
 
           <%= form.label :description %><br>
-          <%= form.text_area :description , :required => true, :class => 'form-control input-lg'%>
+          <%= form.text_area :description, :class => 'form-control input-lg'%>
         </div>
 
         <div class="pt-1 mb-4">
@@ -39,9 +39,27 @@
         </div>
         <br/>
         <% end %>
+
         <%= link_to 'Back', projects_path %>
        </div>
       </div>
     </section>
   </div>
 </body>
+
+
+<script>
+  $('form').validate({
+    onfocusout: function (element) {
+        $(element).valid();
+    },
+    rules: {
+
+    'project[title]': {
+       required: true,
+       minlength: 6
+     },
+    'project[description]': 'required'
+    }
+});
+</script>

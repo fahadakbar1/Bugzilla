@@ -36,3 +36,15 @@
   </div>
 </section>
 </body>
+
+<script>
+  $('form').validate({
+    onfocusout: function (element) {
+        $(element).valid();
+    },
+    rules: {
+    'user[password]': 'required',
+    'user[password_confirmation]': 'required',
+    }
+});
+</script>
