@@ -25,6 +25,9 @@ Metrics/BlockLength:
     - config/**/*
     - spec/**/*
 
+Metrics/AbcSize:
+  Max: 20
+
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - spec/**/*

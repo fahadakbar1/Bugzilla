@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Foo
+module Bugconcerns
   extend ActiveSupport::Concern
 
   def current_project

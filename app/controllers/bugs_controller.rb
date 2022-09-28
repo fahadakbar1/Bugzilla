@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BugsController < ApplicationController
-  include Foo
+  include Bugconcerns
 
   before_action :authenticate_user!
   before_action :original_project, only: %i[new create update destroy]

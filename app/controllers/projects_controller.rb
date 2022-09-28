@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
+  include Projectconcerns
+
   before_action :authenticate_user!, except: [:welcome]
   before_action :find_current_user, only: %i[create destroy update]
   before_action :project_by_id, only: %i[show edit update]
@@ -12,10 +14,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @developers = User.with_role :Developer
-    @qas = User.with_role :QA
-    @all_developers = @developers.pluck(:username)
-    @all_qas = @qas.pluck(:username)
+    developers_and_qas
   end
 
   def new
@@ -26,7 +25,7 @@ class ProjectsController < ApplicationController
   def edit; end
 
   def create
-    @project = @user.projects.new(project_params)
+    create_new_project
     authorize @project
     respond_to do |format|
       if @project.save
@@ -58,7 +57,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = @user.projects.find(params[:id])
+    find_destroy_project
     respond_to do |format|
       if @project.destroy
         format.html { redirect_to projects_path, notice: ' Project has been deleted successfully ' }
@@ -74,15 +73,5 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:title, :description)
-  end
-
-  def project_by_id
-    @project = Project.find(params[:id])
-    @project_developers = @project.users.with_role(:Developer).pluck(:username)
-    @project_qas = @project.users.with_role(:QA).pluck(:username)
-  end
-
-  def find_current_user
-    @user = User.find(current_user.id)
   end
 end
