@@ -1,0 +1,21 @@
+<div class= "add_remove_dev_qa">
+
+  <h1>Remove Developers and QAs from this Project</h1>  <br/>
+
+  <div class= "add_remove_dev">
+    <%= form_with url: prouse_remove_developer_path(@project.id), remote:true, local: true do |f| %>
+    <%= f.select(:developer_for_this_project, @project_developers, {}, { class: "form-control input-md select_fild" }) %>
+    <%= f.hidden_field :project, :value => @project.id %>
+    <%= f.submit "Remove Developer From This Project" , class: 'btn btn-danger btn-md btn-block'%>
+    <% end %>
+  </div>
+
+  <div class= "add_remove_qa">
+    <%= form_with url: prouse_remove_qa_path(@project.id), remote:true, local: true do |f| %>
+    <%= f.select(:qas_for_this_project, @project_qas, {}, { class: "form-control input-md select_fild" }) %>
+    <%= f.hidden_field :project, :value => @project.id %>
+    <%= f.submit "Remove QA From This Project" , class: 'btn btn-danger btn-md btn-block'%>
+    <% end %>
+  </div>
+
+</div>

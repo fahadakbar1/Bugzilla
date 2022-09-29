@@ -1,71 +1,12 @@
 <%= render "shared/navigationbar" %>
 
-<div class="jumbotron">
-  <h1> <%= @project.title %> </h1>
-  <p class="lead"> <%= @project.description %> </p>
-  <hr class="my-4">
-  <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
-  <p>Developers : <%= @project_developers %></p>
-  <p>QAs : <%= @project_qas %></p>
-
-  <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
-  <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
-  <% end %>
-
-  <%= link_to 'Back', projects_path , { :class => "btn btn-primary btn-sm"}%>  <br/>  <br/>
-
-  <div class="tags">
-    <span class="label label-default">No. of Developers : <%= @project.users.select{ |element| element.user_type=="Developer"}.count() %></span>
-    <span class="label label-default">No of QA's : <%= @project.users.select{ |element| element.user_type=="QA"}.count() %></span>
-  </div>
-
-</div>  <br/>  <br/>
+<%= render "shared/projectdetails" %> <br/>  <br/>
 
 <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
 
-<div class= "add_remove_dev_qa">
+<%= render "shared/assigndeveloperandqa" %>  <br/>  <br/>
 
-  <h1>Assign Developers and QA's to this Project</h1>  <br/>
-
-  <div class= "add_remove_dev">
-    <%= form_with url: prouse_add_developer_path(@project.id), local: true do |f|%>
-    <%= f.select(:developer_for_this_project, @all_developers-@project_developers , {}, {class: "form-control input-md select_fild"}) %>
-    <%= f.hidden_field :project, :value => @project.id %>
-    <%= f.submit "Add Developer To This Project", class: 'btn btn-success btn-md btn-block'%>
-    <% end %>
-  </div>
-
-  <div class= "add_remove_qa">
-    <%= form_with url: prouse_add_qa_path(@project), local: true do |f| %>
-    <%= f.select(:qas_for_this_project, @all_qas-@project_qas , {}, { class: "form-control input-md select_fild"}) %>
-    <%= f.hidden_field :project, :value => @project.id %>
-    <%= f.submit "Add QA To This Project" , class: 'btn btn-success btn-md btn-block'%>
-    <% end %>
-  </div>
-
-</div>  <br/>  <br/>
-
-<div class= "add_remove_dev_qa">
-
-  <h1>Remove Developers and QAs from this Project</h1>  <br/>
-
-  <div class= "add_remove_dev">
-    <%= form_with url: prouse_remove_developer_path(@project.id), remote:true, local: true do |f| %>
-    <%= f.select(:developer_for_this_project, @project_developers, {}, { class: "form-control input-md select_fild" }) %>
-    <%= f.hidden_field :project, :value => @project.id %>
-    <%= f.submit "Remove Developer From This Project" , class: 'btn btn-danger btn-md btn-block'%>
-    <% end %>
-  </div>
-
-  <div class= "add_remove_qa">
-    <%= form_with url: prouse_remove_qa_path(@project.id), remote:true, local: true do |f| %>
-    <%= f.select(:qas_for_this_project, @project_qas, {}, { class: "form-control input-md select_fild" }) %>
-    <%= f.hidden_field :project, :value => @project.id %>
-    <%= f.submit "Remove QA From This Project" , class: 'btn btn-danger btn-md btn-block'%>
-    <% end %>
-  </div>
-
-</div>
+<%= render "shared/removedeveloperandqa" %>
 
 <% end %>
 
@@ -75,52 +16,10 @@
 
   <h1>Your Assigned Bug & Features</h1>  <br />
 
-  <table class="table table-bordered table-hover" >
-    <thead>
-     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Deadline</th>
-      <th>Screenshot</th>
-      <th>Type</th>
-      <th>Status</th>
-      <th>View</th>
-      <th>Mark it Complete</th>
-    </tr>
-  </thead>
-  <tbody>
-   <% @project.bugs.each do |bug| %>
-   <%if (bug.dev_id==current_user.id) %>
-   <tr>
-    <td><%= bug.title %></td>
-    <td><%= bug.description %></td>
-    <td><%= bug.deadline %></td>
-    <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
-    <td><%= bug.bugtype %></td>
-    <td><%= bug.status %></td>
-    <td><%= link_to 'View', project_bug_path(bug) %></td>
-    <%if (current_user.user_type=='Developer') %>
-    <td>
-   <%if (bug.status=="completed" || bug.status=="resolved") %>
-      <%= button_to 'Mark it Complete', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
+  <%= render "shared/bugstablefordeveloper" %>
 
-    <% else %>
-
-    <%= form_with url: markcomplete_path(@bug), remote:true, local: true do |f| %>
-      <%= f.hidden_field :pid, :value => @project.id %>
-      <%= f.hidden_field :bid, :value => bug.id %>
-      <%= f.submit "Mark it Complete" , { :class => "btn btn-success btn-sm"}%>
-      <% end %>
-
-    <% end %>
-      </td>
-      <% end %>
-    </tr>
-    <% end %>
-    <% end %>
-  </tbody>
-</table>
 </div>
+
 <% end %>
 
 <div class="bugs_and_projects_table">
@@ -130,68 +29,10 @@
   <% end %>
   <h1>Bugs & Features</h1>
   <br />
-  <table class="table table-bordered table-hover" >
-    <thead >
-     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Deadline</th>
-      <th>Screenshot</th>
-      <th>Type</th>
-      <th>Status</th>
-      <th>View</th>
-      <%if (current_user.user_type=='QA' ) %>
-      <th>Edit</th>
-      <th>Delete</th>
-      <% end%>
-      <%if (current_user.user_type=='Developer' ) %>
-      <th>Assign Bug to Yourself</th>
-      <% end%>
-    </tr>
-  </thead>
-  <tbody>
-   <% @project.bugs.each do |bug| %>
-   <%if (bug.dev_id!=current_user.id) %>
-   <tr>
-    <td><%= bug.title %></td>
-    <td><%= bug.description %></td>
-    <td><%= bug.deadline %></td>
-    <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
-    <td><%= bug.bugtype %></td>
-    <td><%= bug.status %></td>
-    <td><%= link_to 'View', project_bug_path(bug) %></td>
-    <%if ( current_user.user_type=='QA' && bug.user_id==current_user.id ) %>
-    <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
-    <td><%= link_to 'Delete', [bug.project, bug],
-    method: :delete,
-    data: { confirm: 'Are you sure?' } %></td>
-    <% end %>
-    <%if (current_user.user_type=='Developer') %>
-    <td>
-      <%if (bug.status=="completed" || bug.status=="resolved") %>
-      <%= button_to 'Assign Bug To Yourself', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
 
-    <% else %>
-      <%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
+<%= render "shared/bugtableformanagerandqa" %>
 
-      <%= f.hidden_field :pid, :value => @project.id %>
-      <%= f.hidden_field :bid, :value => bug.id %>
-      <%= f.submit "Assign Bug To Yourself" , { :class => "btn btn-success btn-sm"}%>
-
-      <% end %>
-      <% end %>
-
-    </td>
-
-    <% end %>
-  </tr>
-  <% end %>
-  <% end %>
-</tbody>
-
-</table>
 <%if (current_user.user_type=='QA') %>
 <%= link_to 'Add New Bug', new_project_bug_path(@project) , {:style=>'width:15%;', :class => "btn btn-success"}%>
 <% end %>
 </div>
-

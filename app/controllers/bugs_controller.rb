@@ -29,7 +29,6 @@ class BugsController < ApplicationController
           render 'new'
         end
         format.json { render json: @project.errors, status: :unprocessable_entity }
-        # redirect_to new_project_bug_url , notice: 'Bug was not created'
       end
     end
   end

@@ -1,0 +1,20 @@
+<div class="jumbotron">
+  <h1> <%= @project.title %> </h1>
+  <p class="lead"> <%= @project.description %> </p>
+  <hr class="my-4">
+  <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
+  <p>Developers : <%= @project_developers %></p>
+  <p>QAs : <%= @project_qas %></p>
+
+  <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
+  <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
+  <% end %>
+
+  <%= link_to 'Back', projects_path , { :class => "btn btn-primary btn-sm"}%>  <br/>  <br/>
+
+  <div class="tags">
+    <span class="label label-default">No. of Developers : <%= @project.users.select{ |element| element.user_type=="Developer"}.count() %></span>
+    <span class="label label-default">No of QA's : <%= @project.users.select{ |element| element.user_type=="QA"}.count() %></span>
+  </div>
+
+</div>

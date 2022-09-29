@@ -1,0 +1,40 @@
+<%if ( current_user.user_type!='Developer') %>
+
+<div class="bugs_and_projects_table">
+  <h1>Other Projects</h1>
+  <br />
+
+  <table class="table table-bordered table-hover" >
+    <thead class="thead-dark">
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @projects.each do |project| %>
+      <% if project.users.pluck(:id).include?(current_user.id)%>
+      <p></p>
+
+      <% else %>
+      <tr>
+        <td><%= project.title %></td>
+        <td><%= project.description%></td>
+        <td><%= link_to 'View', project_path(project) %></td>
+        <%if (current_user.id == project.users.pluck(:id))%>
+        <td><%= link_to 'Edit', edit_project_path(project) %></td>
+        <td><%= link_to 'Destroy', project_path(project),
+        method: :delete,
+        data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+      <% end %>
+
+      <% end %>
+
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
