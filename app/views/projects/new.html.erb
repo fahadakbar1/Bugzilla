@@ -46,20 +46,3 @@
     </section>
   </div>
 </body>
-
-
-<script>
-  $('form').validate({
-    onfocusout: function (element) {
-        $(element).valid();
-    },
-    rules: {
-
-    'project[title]': {
-       required: true,
-       minlength: 6
-     },
-    'project[description]': 'required'
-    }
-});
-</script>

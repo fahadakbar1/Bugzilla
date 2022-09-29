@@ -52,17 +52,3 @@
 
     </section>
   </body>
-
-  <script>
-    $('form').validate({
-      onfocusout: function (element) {
-          $(element).valid();
-      },
-      rules: {
-      'user[username]': 'required',
-      'user[email]': 'required',
-      'user[password]': 'required',
-      'user[password_confirmation]': 'required'
-      }
-  });
-  </script>

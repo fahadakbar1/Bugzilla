@@ -57,19 +57,3 @@
     </div>
   </section>
 </body>
-
-
-<script>
-  $('form').validate({
-    onfocusout: function (element) {
-        $(element).valid();
-    },
-    rules: {
-    'bug[title]': {
-       required: true,
-       minlength: 6
-     }
-    }
-});
-</script>
-

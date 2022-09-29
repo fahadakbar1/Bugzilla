@@ -22,13 +22,13 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.save
         format.html { redirect_to project_path(@project), notice: ' New bug has been added to this project ' }
-        format.json { render json: @project, status: :created, location: @project }
+        format.json { render :show, status: :created, location: @project }
       else
         format.html do
           flash[:alert] = 'Bug was not created'
           render 'new'
         end
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -39,13 +39,13 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to @project, notice: ' Bug was updated successfully ' }
-        format.json { render json: @project, status: :updated, location: @project }
+        format.json { render :show, status: :ok, location: @project}
       else
         format.html do
           flash[:alert] = 'Bug was not updated'
           render 'edit'
         end
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,10 +56,10 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.destroy
         format.html { redirect_to project_path(@project), notice: ' Bug was deleted successfully ' }
-        format.json { render json: @project, status: :destroyed, location: @project }
+        format.json { head :no_content }
       else
         format.html { redirect_to project_path(@project), notice: ' Bug was not deleted ' }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -71,10 +71,10 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.save
         format.html { redirect_to @project, notice: ' Bug has been assigned to you ' }
-        format.json { render json: @project, status: :assigned, location: @project }
+        format.json { render :show, status: :ok, location: @project }
       else
         format.html { redirect_to project_path(params[:pid]), notice: ' Bug was not assigned ' }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -89,10 +89,10 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.save
         format.html { redirect_to @project, notice: ' Bug has been completed ' }
-        format.json { render json: @project, status: :Completed, location: @project }
+        format.json { render :show, status: :ok, location: @project }
       else
         format.html { redirect_to @project, notice: ' Bug was not completed ' }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
       end
     end
   end
