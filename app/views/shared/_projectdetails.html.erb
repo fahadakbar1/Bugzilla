@@ -3,8 +3,16 @@
   <p class="lead"> <%= @project.description %> </p>
   <hr class="my-4">
   <p>Manager : <%= @project.users.pluck(:username)[0] %></p>
-  <p>Developers : <%= @project_developers %></p>
-  <p>QAs : <%= @project_qas %></p>
+
+  <p>Developers : </p>
+  <% @project_developers.each do |developer| %>
+  <p style="display: inline-block;"> ● <%= developer %></p>
+  <% end %>
+  <p>QAs :</p>
+  <% @project_qas.each do |qa| %>
+  <p style="display: inline-block;"> ● <%= qa %></p>
+  <% end %>
+  <br/>
 
   <%if (@project.users.pluck(:id).include?(current_user.id) && current_user.user_type=='Manager') %>
   <%= link_to 'Edit', edit_project_path(@project) , { :class => "btn btn-success btn-sm"}%>
