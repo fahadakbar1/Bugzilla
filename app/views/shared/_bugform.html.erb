@@ -30,7 +30,7 @@
 
       <div class="form-group">
         <%= form.label :deadline %><br>
-        <%= form.date_select :deadline %>
+        <%= form.date_select :deadline, { :start_year => Time.now.year }%>
       </div>
 
       <%= form.label :screenshot  %><br>
