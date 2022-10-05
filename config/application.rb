@@ -18,6 +18,6 @@ module BugzillaTest
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.action_mailer.default_url_options = { host: 'http://bugzilla-final-project.herokuapp.com' }
+    config.action_mailer.default_url_options = { :host =>'http://bugzilla-final-project.herokuapp.com' }
   end
 end
