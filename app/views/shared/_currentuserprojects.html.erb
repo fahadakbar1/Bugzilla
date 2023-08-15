@@ -1,0 +1,28 @@
+<table class="table table-bordered table-hover" >
+    <thead class="thead-dark">
+     <tr >
+      <th>Title</th>
+      <th>Description</th>
+      <th>View</th>
+      <%if ( current_user.user_type=='Manager') %>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+   <% current_user.projects.each do |project| %>
+   <tr>
+    <td><%= project.title %></td>
+    <td><%= project.description%></td>
+    <td><%= link_to 'View', project_path(project) %></td>
+    <%if ( current_user.user_type=='Manager') %>
+    <td><%= link_to 'Edit', edit_project_path(project) %></td>
+    <td><%= link_to 'Delete', project_path(project),
+    method: :delete,
+    data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
+  </tr>
+  <% end %>
+</tbody>
+</table>

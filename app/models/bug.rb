@@ -2,20 +2,21 @@
 
 class Bug < ApplicationRecord
   validates :title, :bugtype, presence: true
+  validates :title, uniqueness: { case_sensitive: false }, length: { minimum: 6 }
+  # validates_inclusion_of :bugtypes, in: bugtypes.keys
   validate :attached_screenshot_type
-  validates :title, uniqueness: { case_sensitive: false }
-  validate :not_past_date
+  validate :validate_bug_deadline
 
   has_one_attached :screenshot
   belongs_to :project
   belongs_to :user
 
-  enum bugtype: { Bug: 0, Feature: 1 }
-  enum status: { Newbug: 0, Started: 1, Resolved: 2, Completed: 3 }
+  enum bugtype: { bug: 0, feature: 1 }
+  enum status: { newbug: 0, started: 1, resolved: 2, completed: 3 }
 
   private
 
-  def not_past_date
+  def validate_bug_deadline
     errors.add(:deadline, ' of the bug can not be in the past') if deadline < Time.zone.today
   end
 

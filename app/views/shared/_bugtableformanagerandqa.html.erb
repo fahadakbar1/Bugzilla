@@ -1,0 +1,60 @@
+  <table class="table table-bordered table-hover" >
+    <thead >
+     <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Deadline</th>
+      <th>Screenshot</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>View</th>
+      <%if (current_user.user_type=='QA' ) %>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end%>
+      <%if (current_user.user_type=='Developer' ) %>
+      <th>Assign Bug to Yourself</th>
+      <% end%>
+    </tr>
+  </thead>
+  <tbody>
+   <% @project.bugs.each do |bug| %>
+   <%if (bug.dev_id!=current_user.id) %>
+   <tr>
+    <td><%= bug.title %></td>
+    <td><%= bug.description %></td>
+    <td><%= bug.deadline %></td>
+    <td><%= image_tag bug.screenshot, width:"50px" if bug.screenshot.attached? %></td>
+    <td><%= bug.bugtype %></td>
+    <td><%= bug.status %></td>
+    <td><%= link_to 'View', project_bug_path(bug) %></td>
+    <%if ( current_user.user_type=='QA' && bug.user_id==current_user.id ) %>
+    <td><%= link_to 'Edit', edit_project_bug_path(bug) %></td>
+    <td><%= link_to 'Delete', [bug.project, bug],
+    method: :delete,
+    data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
+    <%if (current_user.user_type=='Developer') %>
+    <td>
+      <%if (bug.status=="completed" || bug.status=="resolved") %>
+      <%= button_to 'Assign Bug To Yourself', {}, { :class => "btn btn-success btn-sm" , :disabled => true} %>
+
+    <% else %>
+      <%= form_with url: assign_path(@bug), remote:true, local: true do |f| %>
+
+      <%= f.hidden_field :pid, :value => @project.id %>
+      <%= f.hidden_field :bid, :value => bug.id %>
+      <%= f.submit "Assign Bug To Yourself" , { :class => "btn btn-success btn-sm"}%>
+
+      <% end %>
+      <% end %>
+
+    </td>
+
+    <% end %>
+  </tr>
+  <% end %>
+  <% end %>
+</tbody>
+
+</table>

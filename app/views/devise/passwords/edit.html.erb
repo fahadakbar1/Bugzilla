@@ -1,38 +1,38 @@
-<body style="background-color: #00203FFF;">
+  <body style="background-color: #00203FFF;">
 
-  <nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px; box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px">
-    <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
-  </nav>
+    <nav class="navbar navbar-light " style="background-color: #00203FFF; border-radius: 0;  padding: 20px 50px; box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px">
+      <span class="navbar-brand" style=" font-size:20px;color: white;">BUGZILLA</span>
+    </nav>
 
-  <section class="container mx-auto" style=" padding: 150px 200px; ">
-    <div class="row" style=" padding: 50px 100px; border-radius: 5px;background-color: white;">
-     <div class="col">
-      <h3 style="letter-spacing: 1px;" class="text-center">Change your password</h3>
+    <section class="container mx-auto" style=" padding: 150px 200px; ">
+      <div class="row" style=" padding: 50px 100px; border-radius: 5px;background-color: white;">
+       <div class="col">
+        <h3 style="letter-spacing: 1px;" class="text-center">Change your password</h3>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-<%= render "devise/shared/error_messages", resource: resource %>
-<%= f.hidden_field :reset_password_token %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <%= f.hidden_field :reset_password_token %>
 
-<div class="form-group">
-  <%= f.label :password, "New password" %><br />
-  <% if @minimum_password_length %>
-  <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-  <% end %>
-  <%= f.password_field :password, autofocus: true, autocomplete: "new-password" , class: 'form-control input-lg'%>
-</div>
-
-<div class="form-group">
-  <%= f.label :password_confirmation, "Confirm new password" %><br />
-  <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: 'form-control input-lg'%>
-</div>
-
-<div class="form-group">
-  <%= f.submit "Change my password" , class: 'btn btn-info btn-lg btn-block'%>
-</div>
-<% end %>
-
-<%= render "devise/shared/links" %>
- </div>
+  <div class="form-group">
+    <%= f.label :password, "New password" %><br />
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+    <% end %>
+    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" , class: 'form-control input-lg'%>
   </div>
-</section>
-</body>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation, "Confirm new password" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: 'form-control input-lg'%>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Change my password" , class: 'btn btn-info btn-lg btn-block'%>
+  </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+   </div>
+    </div>
+  </section>
+  </body>

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
+  include Projectconcerns
+
   before_action :authenticate_user!, except: [:welcome]
   before_action :find_current_user, only: %i[create destroy update]
-  before_action :user_project, only: %i[create]
   before_action :project_by_id, only: %i[show edit update]
-  before_action :user_project_by_id, only: %i[destroy]
 
   def welcome; end
 
@@ -14,8 +14,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @developers = User.with_role :Developer
-    @qas = User.with_role :QA
+    developers_and_qas
   end
 
   def new
@@ -26,27 +25,47 @@ class ProjectsController < ApplicationController
   def edit; end
 
   def create
+    create_new_project
     authorize @project
-    if @project.save
-      redirect_to @project, notice: ' Project has been created successfully '
-    else
-      redirect_to new_project_url, notice: ' Project was not created '
+    respond_to do |format|
+      if @project.save
+        format.html { redirect_to @project, notice: ' Project has been created successfully ' }
+        format.json { render :show, status: :created, location: @project}
+      else
+        format.html do
+          flash[:alert] = 'Project was not created'
+          render 'new'
+        end
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def update
-    if @project.update(project_params)
-      redirect_to @project, notice: ' Project has been updated successfully '
-    else
-      redirect_to edit_project_url, notice: ' Project was not updated '
+    respond_to do |format|
+      if @project.update(project_params)
+        format.html { redirect_to @project, notice: ' Project has been updated successfully ' }
+        format.json {render :show, status: :ok, location: @project}
+      else
+        format.html do
+          flash[:alert] = 'Project was not updated'
+          render 'edit'
+        end
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
-    if @project.destroy
-      redirect_to projects_path, notice: ' Project has been destroyed successfully '
-    else
-      redirect_to project_path, notice: ' Project was not deleted '
+    find_destroy_project
+    respond_to do |format|
+      if @project.destroy
+        format.html { redirect_to projects_path, notice: ' Project has been deleted successfully ' }
+        format.json {head :no_content}
+      else
+        format.html { redirect_to project_path, notice: ' Project was not deleted ' }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -54,21 +73,5 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:title, :description)
-  end
-
-  def user_project
-    @project = @user.projects.new(project_params)
-  end
-
-  def user_project_by_id
-    @project = @user.projects.find(params[:id])
-  end
-
-  def project_by_id
-    @project = Project.find(params[:id])
-  end
-
-  def find_current_user
-    @user = User.find(current_user.id)
   end
 end
