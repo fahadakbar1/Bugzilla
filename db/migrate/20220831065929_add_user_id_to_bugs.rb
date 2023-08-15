@@ -2,6 +2,6 @@
 
 class AddUserIdToBugs < ActiveRecord::Migration[5.2]
   def change
-    add_column :bugs, :user_id, :integer
+    add_reference :bugs, :user, foreign_key: true
   end
 end

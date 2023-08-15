@@ -2,7 +2,7 @@
 
 class Project < ApplicationRecord
   validates :title, :description, presence: true
-  validates :title, length: { minimum: 5 }
+  validates :title, length: { minimum: 6 }
 
   has_many :prouse, dependent: :destroy
   has_many :bugs, dependent: :destroy
