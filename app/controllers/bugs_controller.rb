@@ -3,7 +3,6 @@
 class BugsController < ApplicationController
   include Bugconcerns
 
-  before_action :authenticate_user!
   before_action :original_project, only: %i[new create update destroy]
   before_action :current_project, only: %i[edit show]
 
@@ -39,7 +38,7 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to @project, notice: ' Bug was updated successfully ' }
-        format.json { render :show, status: :ok, location: @project}
+        format.json { render :show, status: :ok, location: @project }
       else
         format.html do
           flash[:alert] = 'Bug was not updated'

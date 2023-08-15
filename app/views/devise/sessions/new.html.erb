@@ -7,7 +7,7 @@
        <div class="col">
         <h3 style="letter-spacing: 1px;" class="text-center">Log in to Bugzilla</h3>
 
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|  %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :id => "signinform" } ) do |f|  %>
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div class="form-group">
